@@ -7,34 +7,58 @@ Recipe Stash is a user-friendly recipe organizer that guides you along your culi
 
 ###### Dialogs and pickers
 
+- Save settings 
 
+- Confirm recipe upload
 
 ###### Multiple screens and navigation
 
+- Bottom bar that navigates to 3 different screens (Home, Recipes, Account)
 
+- Seperate screen and section for ingredient adding 
+
+- Seperate screen to upload picture of food/recipe with ingreidients table
+
+- Settings icon at top right
 
 ###### Snack bars
 
+- saved recipe upload
 
+- Code created for recipe
+
+- recipe favourited
 
 ###### Notifications
 
+- Notification for someone liking your recipe
 
+- Notification for someone added your recipe to their list
 
 ###### Local storage (SQLite)
 
+- Local storage holds recipe data
+
+- Local storage holds photo
+
+- Local storage can pull data from cloud
 
 
 ###### Cloud storage (Firestore or other)
 
+- Cloud storage holds Recipe Data
 
+- Cloud storage holds codes that link to different recipes
+
+- Cloud storage for uploading recipe data including picture
 
 ###### HTTP requests
 
-
+- Sync data between local and cloud
 
 ###### Camera
 
+- User can choose photo from library or take picture live to add to recipe
 
 
 # Group members and Responsibilities
