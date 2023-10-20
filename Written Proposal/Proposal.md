@@ -1,56 +1,54 @@
-# Project Overview
+![Logo](../Images/Icon.png)
+
+# Recipe Stash Project Overview
 
 Recipe Stash is a user-friendly recipe organizer that guides you along your culinary journey. With its seamless features, Recipe Stash allows you to effortlessly store, manage, and share your favorite recipes. From organizing your go-to weeknight dinners to saving your most cherished family recipes, Recipe Stash streamlines the process. Enjoy the convenience of categorizing, editing, and saving recipes according to your preferences. Its robust synchronization across various devices ensures that your recipes are readily accessible wherever you go. In addition to personal use, Recipe Stash also lets you share your culinary discoveries with friends and family, fostering a vibrant community of food enthusiasts. Elevate your cooking adventures with Recipe Stash and unlock a world of flavors right at your fingertips.
-
 
 # List of Features
 
 ###### Dialogs and pickers
 
-- Save settings 
-
-- Confirm recipe upload
+- Save recipe confirmation
+- Delete recipe confirmation
+- Select picture
+- Share
+- Print
+- Delete all recipe confirmation
+- Switch account popup
+- Color picker for theme
+- Notification picker popup
 
 ###### Multiple screens and navigation
 
-- Bottom bar that navigates to 3 different screens (Home, Recipes, Account)
-
-- Seperate screen and section for ingredient adding 
-
-- Seperate screen to upload picture of food/recipe with ingreidients table
-
-- Settings icon at top right
+- Bottom navigation bar for navigating purposes
+- Home screen (list recipes)
+- Account screen
+- Settings screen
+- Recipe adding screen
+- Detailed Recipe screen
+- Login screen
 
 ###### Snack bars
 
-- saved recipe upload
-
-- Code created for recipe
-
-- recipe favourited
+- Recipe saved/created
+- Recipe deleted (with undo)
+- Deleted all recipe (with undo)
+- Switched account
+- Shared
 
 ###### Notifications
 
-- Notification for someone liking your recipe
-
-- Notification for someone added your recipe to their list
+- Daily random recipe suggestion
+- Daily cooking tips and tricks
 
 ###### Local storage (SQLite)
 
-- Local storage holds recipe data
+- Stores the user's recipes locally using SQLite
 
-- Local storage holds photo
+###### Cloud storage (Firestore)
 
-- Local storage can pull data from cloud
-
-
-###### Cloud storage (Firestore or other)
-
-- Cloud storage holds Recipe Data
-
-- Cloud storage holds codes that link to different recipes
-
-- Cloud storage for uploading recipe data including picture
+- Recipe data
+- User data
 
 ###### HTTP requests
 
@@ -58,24 +56,51 @@ Recipe Stash is a user-friendly recipe organizer that guides you along your culi
 
 ###### Camera
 
-- User can choose photo from library or take picture live to add to recipe
-
+- Take pictures to add for a recipe
 
 # Group members and Responsibilities
 
-###### Md Tanjeem Haider:
+###### Project Planning
 
+- Md Tanjeem Haider
+- Ayman Zahid
+- Razeen MeeraAmeer
 
+###### UI Design
 
-###### Ayman Zahid:
+- Md Tanjeem Haider*
+- Razeen MeeraAmeer
 
+###### Front End Development
 
+- Razeen MeeraAmeer*
+- Md Tanjeem Haider
 
-###### Razeen MeeraAmeer:
+###### Back End Development
 
+- Md Tanjeem Haider*
+- Ayman Zahid
+- Razeen MeeraAmeer
 
+###### Testing & Quality Assurance
+
+- Md Tanjeem Haider*
+
+###### Code Clean-up & Refactoring
+
+- Md Tanjeem Haider*
+
+###### Documentation & User help
+
+- Ayman Zahid*
+- Md Tanjeem Haider
+
+The asterisk (\*) denotes the team lead for each respective task. The absence of the asterisk (\*) all together signifies an even distribution of responsibilities without a designated team lead.
 
 # Code Design (UML)
 
+![UML](Design_UML.png)
 
 # UI Mockup
+
+![UI Mockup](UI_Mockup.png)
