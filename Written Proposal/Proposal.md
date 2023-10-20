@@ -1,4 +1,6 @@
-# Project Overview
+![Logo](../Images/Icon.png)
+
+# Recipe Stash Project Overview
 
 Recipe Stash is a user-friendly recipe organizer that guides you along your culinary journey. With its seamless features, Recipe Stash allows you to effortlessly store, manage, and share your favorite recipes. From organizing your go-to weeknight dinners to saving your most cherished family recipes, Recipe Stash streamlines the process. Enjoy the convenience of categorizing, editing, and saving recipes according to your preferences. Its robust synchronization across various devices ensures that your recipes are readily accessible wherever you go. In addition to personal use, Recipe Stash also lets you share your culinary discoveries with friends and family, fostering a vibrant community of food enthusiasts. Elevate your cooking adventures with Recipe Stash and unlock a world of flavors right at your fingertips.
 
@@ -78,6 +80,7 @@ Recipe Stash is a user-friendly recipe organizer that guides you along your culi
 
 - Md Tanjeem Haider*
 - Ayman Zahid
+- Razeen MeeraAmeer
 
 ###### Testing & Quality Assurance
 
@@ -96,4 +99,8 @@ The asterisk (\*) denotes the team lead for each respective task. The absence of
 
 # Code Design (UML)
 
+![UML](Design_UML.png)
+
 # UI Mockup
+
+![UI Mockup](UI_Mockup.png)
