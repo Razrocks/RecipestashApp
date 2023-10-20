@@ -99,7 +99,7 @@ The asterisk (\*) denotes the team lead for each respective task. The absence of
 
 # Code Design (UML)
 
-![UML](Design_UML.png)
+![UML](Design_UML.jpg)
 
 # UI Mockup
 
