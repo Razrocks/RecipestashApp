@@ -1,9 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:recipestash/firebase_options.dart';
 import 'package:flutter/material.dart';
-import 'package:recipestash/pages/home.dart';
+import 'package:recipestash/widget_tree.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MainApp());
 }
 
@@ -12,21 +14,27 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(future: Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform),
+    return FutureBuilder(
+      future: Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          print('connection error');
+          return MaterialApp(
+            home: Scaffold(
+              body: Center(
+                child: Text("Error: ${snapshot.error}")
+              ),
+            ),
+          );
         }
         if (snapshot.connectionState == ConnectionState.done) {
-          print('successfully connected to firebase');
           return const MaterialApp(
-            home: Home()
+            home: WidgetTree()
           );
         }
         else {
           return const CircularProgressIndicator();
         }
-      });
+      },
+    );
   }
 }
