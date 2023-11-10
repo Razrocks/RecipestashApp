@@ -17,10 +17,11 @@ class Authentication {
   }
 
   Future<void> signUp({required String email, required String password}) async {
-    await _auth.createUserWithEmailAndPassword(email: email, password: password);
+    UserCredential uc = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+    await uc.user!.updateDisplayName(email.split('@')[0]); // set default display name to be the email address without the domain
   }
 
-  Future<void> SignInGoogle() async {
+  Future<void> signInGoogle() async {
     
     GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 

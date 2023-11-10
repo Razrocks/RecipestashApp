@@ -39,7 +39,7 @@ class _LoginRegisterPageState extends State<LoginRegisterPage> {
   Future<void> signInWithGoogle() async
   {
     try {
-      await Authentication().SignInGoogle();
+      await Authentication().signInGoogle();
     } on FirebaseAuthException catch (e) {
       setState(() {
         errorMessage = e.message;
@@ -54,13 +54,15 @@ class _LoginRegisterPageState extends State<LoginRegisterPage> {
       appBar: AppBar(
         title: const Text('Recipe Stash'),
       ),
-      body: Center(
+      body: SingleChildScrollView(
+        child: Center(
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
+              FractionallySizedBox(widthFactor: 0.3, child: Image.asset('assets/images/Icon.png')),
               TextFormField(
                 controller: _emailController,
                 decoration: const InputDecoration(labelText: 'Email',),
@@ -78,6 +80,7 @@ class _LoginRegisterPageState extends State<LoginRegisterPage> {
           )
         ),
       ),
+      )
     );
   }
 }

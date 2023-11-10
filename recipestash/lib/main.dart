@@ -2,10 +2,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:recipestash/firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:recipestash/widget_tree.dart';
+import 'package:flutter/services.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive); // goes into fullscreen mode for the app and removes status bar + nav buttons
   runApp(const MainApp());
 }
 
