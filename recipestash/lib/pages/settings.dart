@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
-class SettingsPage extends StatefulWidget {
+class Settings extends StatefulWidget {
+  const Settings({super.key});
+
   @override
-  _SettingsPageState createState() => _SettingsPageState();
+  State<Settings> createState() => _SettingsState();
 }
 
-class _SettingsPageState extends State<SettingsPage> {
+class _SettingsState extends State<Settings> {
   bool isDarkModeEnabled = false; // Filler value
   bool areNotificationsEnabled = false; // Filler value
 
@@ -15,7 +17,7 @@ class _SettingsPageState extends State<SettingsPage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
             color: Colors.black,
           ),
@@ -23,7 +25,7 @@ class _SettingsPageState extends State<SettingsPage> {
             Navigator.pop(context);
           },
         ),
-        title: Text(
+        title: const Text(
           'Settings',
           style: TextStyle(
             color: Colors.black,
@@ -33,8 +35,8 @@ class _SettingsPageState extends State<SettingsPage> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start, // Align children to the start (left)
         children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
+          const Padding(
+            padding: EdgeInsets.all(16.0),
             child: Text(
               'Themes',
               style: TextStyle(
@@ -66,7 +68,7 @@ class _SettingsPageState extends State<SettingsPage> {
               }),
             ],
           ),
-          SizedBox(height: 16), // Add some spacing between the two rows
+          const SizedBox(height: 16), // Add some spacing between the two rows
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -85,12 +87,12 @@ class _SettingsPageState extends State<SettingsPage> {
               }),
             ],
           ),
-          SizedBox(height: 16), // Add some spacing before "Dark Mode" text
+          const SizedBox(height: 16), // Add some spacing before "Dark Mode" text
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Padding(
-                padding: const EdgeInsets.all(22.0),
+              const Padding(
+                padding: EdgeInsets.all(22.0),
                 child: Text(
                   'Dark Mode',
                   style: TextStyle(
@@ -114,8 +116,8 @@ class _SettingsPageState extends State<SettingsPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Padding(
-                padding: const EdgeInsets.all(22.0),
+              const Padding(
+                padding: EdgeInsets.all(22.0),
                 child: Text(
                   'Notifications',
                   style: TextStyle(
@@ -184,11 +186,11 @@ class _SettingsPageState extends State<SettingsPage> {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          primary: color,
+          backgroundColor: color
         ),
         child: Text(
           label,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 16,
           ),
         ),
@@ -207,7 +209,7 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
         child: Text(
           label,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 16,
           ),
         ),
@@ -222,7 +224,7 @@ class _SettingsPageState extends State<SettingsPage> {
         padding: const EdgeInsets.all(16.0),
         child: Text(
           text,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.black,
             fontSize: 18,
             fontWeight: FontWeight.bold,
@@ -232,24 +234,3 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 }
-
-void main() {
-  runApp(MaterialApp(
-    home: SettingsPage(),
-  ));
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

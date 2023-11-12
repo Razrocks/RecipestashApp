@@ -7,7 +7,7 @@ import 'package:recipestash/pages/account.dart';
 import 'package:recipestash/pages/settings.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key? key});
+  const Home({super.key});
 
   @override
   State<Home> createState() => _HomeState();
@@ -138,6 +138,10 @@ class _HomeState extends State<Home> {
 
   void navtoSetting(BuildContext context)
   {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const Settings())
+    );
   }
 
   Widget navBar(BuildContext context) {
