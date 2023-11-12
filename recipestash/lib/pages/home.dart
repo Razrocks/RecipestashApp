@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:recipestash/classes/authentication.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:recipestash/classes/recipe.dart';
+import 'package:recipestash/classes/recipe_model.dart';
 import 'package:recipestash/pages/account.dart';
 
 class Home extends StatefulWidget {
@@ -12,6 +14,14 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final User? user = Authentication().currentUser;
+  final RecipeModel _model = RecipeModel();
+  List<Recipe> recipes = [];
+  
+  @override
+  void initState() {
+    super.initState();
+    recipes = [];
+  }
 
   Widget searchField()
   {
@@ -60,6 +70,7 @@ class _HomeState extends State<Home> {
               //   image: AssetImage(imagePath),
               //   fit: BoxFit.cover)
               ),
+            child: Center(child: Text(text)),
           ),
           
         ],
@@ -92,14 +103,33 @@ class _HomeState extends State<Home> {
     );
   }
 
-  // Widget recipes()
-  // {
-  //   return ListView(); //add recipe cards later
-  // }
+  Widget showRecipes()
+  {
+    return StreamBuilder(
+      stream: _model.getAllRecipes(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) { // for now show all recipes, later will show only selected categories
+          recipes = snapshot.data!;
+          return ListView.builder(
+            itemCount: recipes.length,
+            itemBuilder: (context, index) {
+              return Padding(padding: const EdgeInsets.all(5), child:card(recipes[index].title!, 350, 130));
+            }
+          );
+        } else if (snapshot.hasError) {
+          return Center(child: Text(snapshot.error.toString()));
+          } else {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      }
+    );
+  }
 
   void addRecipe()
   {
-    //add recipe
+    return;
   }
 
   void navtoAccount(BuildContext context)
@@ -108,6 +138,10 @@ class _HomeState extends State<Home> {
       context,
       MaterialPageRoute(builder: (context) => const Account())
     );
+  }
+
+  void navtoSetting(BuildContext context)
+  {
   }
 
   Widget navBar(BuildContext context)
@@ -121,7 +155,7 @@ class _HomeState extends State<Home> {
           // ones that are only icon need their pages before they can be navigated to
           Icon(Icons.home_outlined),
           IconButton(onPressed: () {navtoAccount(context);}, icon: Icon(Icons.account_circle_outlined)),
-          Icon(Icons.settings_outlined)
+          IconButton(onPressed: () {navtoSetting(context);}, icon: Icon(Icons.settings_outlined)),
         ],
       )
     );
@@ -140,7 +174,8 @@ class _HomeState extends State<Home> {
             searchField(),
             categoriesHeader(),
             categories(),
-            // recipes(),
+            const Divider(),
+            Expanded(child: showRecipes())
           ]
         ),
         floatingActionButton: FloatingActionButton(
