@@ -1,6 +1,5 @@
 class Preferences {
-  int? r, g, b;
-  bool? darkMode, notifications;
+  int? r, g, b, darkMode, notifications;
 
   Preferences({this.r, this.g, this.b, this.darkMode, this.notifications});
 
