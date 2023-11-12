@@ -8,24 +8,17 @@ import 'package:recipestash/widget_tree.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
-// https://gist.github.com/MdTanjeemHaider/f55478783111c6d502c0806808481a64/raw/ //this contains random cooking tips
-
 Future<String> getRandomTip() async {
-  // COMMENTED OUT FOR NOW AS THE LINK IS NOT WORKING (WILL FIX LATER)
-  // Uri url = Uri.parse("https://gist.github.com/MdTanjeemHaider/f55478783111c6d502c0806808481a64/raw/");
-  // final response = await http.get(url);
+  Uri url = Uri.parse("https://my-json-server.typicode.com/MdTanjeemHaider/randomCookingTips/db");
+  final response = await http.get(url);
 
-  // if (response.statusCode == 200){
-  //   print('WORKS');
-  //   List<String> tips = List<String>.from(json.decode(response.body)["tips"]);
-  //   return tips[Random().nextInt(tips.length)];
-  // }
-  // else {
-  //   print('FAIL');
-  //   throw Exception("Failed to load tip");
-  // }
-
-  return "This is a test tip"; // TEMPORARY UNTIL THE LINK IS FIXED
+  if (response.statusCode == 200){
+    List<String> tips = List<String>.from(json.decode(response.body)["tips"]);
+    return tips[Random().nextInt(tips.length)];
+  }
+  else {
+    throw Exception("Failed to load tip");
+  }
 }
 
 Future<void> main() async {
@@ -44,11 +37,11 @@ Future<void> main() async {
     importance: Importance.max,
     priority: Priority.high,);
   NotificationDetails notificationDetails = NotificationDetails(android: androidPlatformChannelSpecifics);
-  await flutterLocalNotificationsPlugin.periodicallyShow(          // doesn't work for some reason need to fix
+  await flutterLocalNotificationsPlugin.periodicallyShow(
     0,
     'Daily Cooking Tip',
     await getRandomTip(),
-    RepeatInterval.everyMinute,
+    RepeatInterval.daily,
     notificationDetails,
     androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle
   );
