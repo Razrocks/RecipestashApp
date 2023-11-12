@@ -13,7 +13,6 @@ class RecipeModel {
   }
 
   Future<void> addRecipe(
-    id,
     title,
     category,
     description,
