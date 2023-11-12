@@ -40,11 +40,10 @@ class _HomeState extends State<Home> {
                 suffixIcon: Icon(Icons.search)
               )
             )
-          ),
-        ),
-      ],
-    ),
-  );
+          )
+        ]
+      )
+    );
 }
 
 
