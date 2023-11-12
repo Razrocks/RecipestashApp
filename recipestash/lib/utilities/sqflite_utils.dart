@@ -6,7 +6,7 @@ class SqfliteUtils{
     Future<Database> database = openDatabase(
       path.join(await getDatabasesPath(), 'preference_manager.db'),
       onCreate: (db, version) {
-        db.execute('CREATE TABLE preferences(id INTEGER PRIMARY KEY, r INTEGER, g INTEGER, b INTEGER, darkMode BOOLEAN, notifications BOOLEAN)');
+        db.execute('CREATE TABLE preferences(id INTEGER PRIMARY KEY, r INTEGER, g INTEGER, b INTEGER, darkMode INTEGER, notifications INTEGER)');
       },
       version: 1,
     );
