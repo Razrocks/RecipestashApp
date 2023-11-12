@@ -152,4 +152,10 @@ class RecipeModel {
     DocumentSnapshot documentSnapshot = await db!.doc(id).get();
     return Recipe.fromMap(documentSnapshot.data() as Map<String, dynamic>, reference: documentSnapshot.reference);
   }
+
+  Future<void> deleteAllRecipe() async {
+    QuerySnapshot querySnapshot = await db!.get();
+    for (QueryDocumentSnapshot element in querySnapshot.docs) { 
+      element.reference.delete();}
+  }
 }

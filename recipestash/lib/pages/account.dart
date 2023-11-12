@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:recipestash/classes/authentication.dart';
+import 'package:recipestash/classes/recipe_model.dart';
 
 class Account extends StatelessWidget {
   const Account({Key? key}) : super(key: key);
@@ -9,7 +10,9 @@ class Account extends StatelessWidget {
     await Authentication().signOut();
   }
 
-  void deleteAllRecipe() {}
+  void deleteAllRecipe() {
+    RecipeModel().deleteAllRecipe();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +60,32 @@ class Account extends StatelessWidget {
           ),
           // const Divider(),
           TextButton(
-            onPressed: deleteAllRecipe,
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text("Delete all recipes?"),
+                    content: const Text("This action cannot be undone."),
+                    actions: [
+                      TextButton(
+                        onPressed: (){Navigator.pop(context);},
+                        child: const Text("No")
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          deleteAllRecipe();
+                          Navigator.pop(context);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text("Deleted all recipes!")));
+                        },
+                        child: const Text("Yes")
+                      )
+                    ],
+                  );
+                }
+              );
+            },
             style: TextButton.styleFrom(alignment: Alignment.centerLeft),
             child: const Text('Delete all recipes'),
           ),
@@ -76,7 +104,8 @@ class Account extends StatelessWidget {
                       ),
                       TextButton(
                         onPressed: () {
-                          signOut(); Navigator.pop(context);
+                          signOut();
+                          Navigator.pop(context);
                           Navigator.pop(context);
                           ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text("Signed out successfully!")));
