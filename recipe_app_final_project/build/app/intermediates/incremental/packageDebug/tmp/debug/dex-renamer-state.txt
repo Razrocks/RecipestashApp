@@ -1,0 +1,4 @@
+#Thu Oct 19 14:19:08 EDT 2023
+base.0=D\:\\MEGASync\\University\\Mobile Devices\\Group Project\\mobile-group-project-2023-r-a-t\\recipe_app_final_project\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
+path.0=classes.dex
+renamed.0=classes.dex
