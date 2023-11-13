@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:recipestash/classes/recipe.dart';
 import 'package:recipestash/classes/recipe_model.dart';
 import 'package:recipestash/pages/account.dart';
+import 'package:recipestash/pages/recipe_form.dart';
 import 'package:recipestash/pages/settings.dart';
 
 class Home extends StatefulWidget {
@@ -125,7 +126,10 @@ class _HomeState extends State<Home> {
 
   void addRecipe()
   {
-    return;
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => RecipeForm(model: _model, isEdit: false,))
+    );
   }
 
   void navtoAccount(BuildContext context)
