@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:recipestash/classes/recipe.dart';
 import 'package:recipestash/classes/recipe_model.dart';
 import 'package:recipestash/pages/account.dart';
+import 'package:recipestash/pages/recipe_overview.dart';
 import 'package:recipestash/pages/recipe_form.dart';
 import 'package:recipestash/pages/settings.dart';
 
@@ -18,40 +19,33 @@ class _HomeState extends State<Home> {
   final User? user = Authentication().currentUser;
   final RecipeModel _model = RecipeModel();
   List<Recipe> recipes = [];
-  
+
   @override
   void initState() {
     super.initState();
     recipes = [];
   }
 
-  Widget searchField()
-  {
+  Widget searchField() {
     return const Padding(
-      padding: EdgeInsets.all(10.0),
-      child: Row(
-        children: [
+        padding: EdgeInsets.all(10.0),
+        child: Row(children: [
           Expanded(
-            child: TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(15.0))
-                ),
-                hintText: 'Search',
-                suffixIcon: Icon(Icons.search)
-              )
-            )
-          )
-        ]
-      )
-    );
-}
-
+              child: TextField(
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(15.0))),
+                      hintText: 'Search',
+                      suffixIcon: Icon(Icons.search))))
+        ]));
+  }
 
   Widget categoriesHeader() {
     return const Column(
       children: [
-        Text('Categories', style: TextStyle(fontWeight: FontWeight.bold), textScaleFactor: 1.5)
+        Text('Categories',
+            style: TextStyle(fontWeight: FontWeight.bold), textScaleFactor: 1.5)
       ],
     );
   }
@@ -65,15 +59,11 @@ class _HomeState extends State<Home> {
               width: w,
               height: h,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: Colors.grey
-              ),
-            child: Center(child: Text(text)),
-          ),
-          
-        ],
-      )
-    );
+                  borderRadius: BorderRadius.circular(15), color: Colors.grey),
+              child: Center(child: Text(text)),
+            ),
+          ],
+        ));
   }
 
   Widget categories() {
@@ -100,27 +90,41 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Widget showRecipes()
-  {
+  Widget showRecipes() {
     return StreamBuilder(
       stream: _model.getAllRecipes(),
       builder: (context, snapshot) {
-        if (snapshot.hasData) { // for now show all recipes, later will show only selected categories
+        if (snapshot.hasData) {
           recipes = snapshot.data!;
           return ListView.builder(
             itemCount: recipes.length,
             itemBuilder: (context, index) {
-              return Padding(padding: const EdgeInsets.all(5), child:card(recipes[index].title!, 350, 130));
-            }
+              return Padding(
+                padding: const EdgeInsets.all(5),
+                child: GestureDetector(
+                  onTap: () {
+                    // Navigate to the RecipeOverview page when a recipe is tapped
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            RecipeOverview(recipe: recipes[index]),
+                      ),
+                    );
+                  },
+                  child: card(recipes[index].title!, 350, 130),
+                ),
+              );
+            },
           );
         } else if (snapshot.hasError) {
           return Center(child: Text(snapshot.error.toString()));
-          } else {
+        } else {
           return const Center(
             child: CircularProgressIndicator(),
           );
         }
-      }
+      },
     );
   }
 
@@ -132,36 +136,37 @@ class _HomeState extends State<Home> {
     );
   }
 
-  void navtoAccount(BuildContext context)
-  {
+  void navtoAccount(BuildContext context) {
     Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const Account())
-    );
+        context, MaterialPageRoute(builder: (context) => const Account()));
   }
 
-  void navtoSetting(BuildContext context)
-  {
+  void navtoSetting(BuildContext context) {
     Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const Settings())
-    );
+        context, MaterialPageRoute(builder: (context) => const Settings()));
   }
 
   Widget navBar(BuildContext context) {
     return BottomAppBar(
-      height: 40,
-      color: Colors.grey,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          // ones that are only icon need their pages before they can be navigated to
-          Icon(Icons.home_outlined),
-          IconButton(onPressed: () {navtoAccount(context);}, icon: Icon(Icons.account_circle_outlined)),
-          IconButton(onPressed: () {navtoSetting(context);}, icon: Icon(Icons.settings_outlined)),
-        ],
-      )
-    );
+        height: 40,
+        color: Colors.grey,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            // ones that are only icon need their pages before they can be navigated to
+            Icon(Icons.home_outlined),
+            IconButton(
+                onPressed: () {
+                  navtoAccount(context);
+                },
+                icon: Icon(Icons.account_circle_outlined)),
+            IconButton(
+                onPressed: () {
+                  navtoSetting(context);
+                },
+                icon: Icon(Icons.settings_outlined)),
+          ],
+        ));
   }
 
   Future<void> signOut() async {
@@ -171,23 +176,22 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        body: Column(
-          children: [
-            searchField(),
-            categoriesHeader(),
-            categories(),
-            const Divider(),
-            Expanded(child: showRecipes())
-          ]
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {addRecipe();},
-          backgroundColor: Colors.grey,
-          child: const Icon(Icons.add),
-        ),
-        bottomNavigationBar: navBar(context),
-      )
-    );
+        home: Scaffold(
+      body: Column(children: [
+        searchField(),
+        categoriesHeader(),
+        categories(),
+        const Divider(),
+        Expanded(child: showRecipes())
+      ]),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          addRecipe();
+        },
+        backgroundColor: Colors.grey,
+        child: const Icon(Icons.add),
+      ),
+      bottomNavigationBar: navBar(context),
+    ));
   }
 }
