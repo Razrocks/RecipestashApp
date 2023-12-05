@@ -5,6 +5,7 @@ import 'package:recipestash/classes/recipe.dart';
 import 'package:recipestash/classes/recipe_model.dart';
 import 'package:recipestash/pages/account.dart';
 import 'package:recipestash/pages/recipe_overview.dart';
+import 'package:recipestash/pages/recipe_form.dart';
 import 'package:recipestash/pages/settings.dart';
 import 'package:recipestash/pages/components/category_header.dart';
 
@@ -129,8 +130,12 @@ class _HomeState extends State<Home> {
     );
   }
 
-  void addRecipe() {
-    return;
+  void addRecipe()
+  {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => RecipeForm(model: _model, isEdit: false,))
+    );
   }
 
   void navtoAccount(BuildContext context) {

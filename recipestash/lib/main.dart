@@ -1,3 +1,9 @@
+// Sources/information used:
+// dart.dev
+// https://firebase.google.com/docs
+// https://www.youtube.com/watch?v=VCrXSFqdsoA
+// https://www.youtube.com/watch?v=rWamixHIKmQ
+
 import 'dart:convert';
 import 'dart:math';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -13,7 +19,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 //global preferences variable
 Preferences preferences =
-    Preferences(r: 255, g: 255, b: 255, darkMode: 0, notifications: 1);
+    Preferences(r:103, g:202, b:248, darkMode: 0, notifications: 1);
 
 Future<String> getRandomTip() async {
   Uri url = Uri.parse(
@@ -85,29 +91,6 @@ Future<void> main() async {
   if (preferences.notifications == 1) {
     await dailyNotifications();
   }
-
-  // await RecipeModel().addRecipe(
-  //     "Chicken Parmesan",
-  //     "Lunch",
-  //     "Fried Chicken with Tomato Sauce and Cheese",
-  //     10,
-  //     30,
-  //     4,
-  //     "4 chicken breasts, 1 cup of flour, 2 eggs, 1 cup of bread crumbs, 1 cup of tomato sauce, 1 cup of mozzarella cheese",
-  //     "1. Preheat oven to 350 degrees F. 2. Coat chicken breasts in flour, then egg, then bread crumbs. 3. Fry chicken breasts in a pan until golden brown. 4. Place chicken breasts in a baking dish and cover with tomato sauce and cheese. 5. Bake for 20 minutes.",
-  //     "Serve with pasta and garlic bread.",
-  //     "https://ww",
-  //     1.0,
-  //     500.0,
-  //     20.0,
-  //     10.0,
-  //     0.0,
-  //     100.0,
-  //     500.0,
-  //     50.0,
-  //     10.0,
-  //     10.0,
-  //     50.0);
 
   runApp(const MainApp());
 }

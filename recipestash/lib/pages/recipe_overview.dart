@@ -32,49 +32,51 @@ class _RecipeOverviewState extends State<RecipeOverview> {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Overview Section
-            _buildSectionTitle('Overview'),
-            _buildRecipeDetail('Title', widget.recipe.title),
-            _buildRecipeDetail('Category', widget.recipe.category),
-            Text('Description: ${widget.recipe.description}'),
-            Text('Prep Time: ${widget.recipe.prepTime}'),
-            Text('Cook Time: ${widget.recipe.cookTime}'),
-            Text('Servings: ${widget.recipe.servings}'),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Overview Section
+              _buildSectionTitle('Overview'),
+              _buildRecipeDetail('Title', widget.recipe.title),
+              _buildRecipeDetail('Category', widget.recipe.category),
+              Text('Description: ${widget.recipe.description}'),
+              Text('Prep Time: ${widget.recipe.prepTime}'),
+              Text('Cook Time: ${widget.recipe.cookTime}'),
+              Text('Servings: ${widget.recipe.servings}'),
 
-            // Ingredients Section
-            _buildSectionTitle('Ingredients'),
-            Text('Ingredients: ${widget.recipe.ingredents}'),
+              // Ingredients Section
+              _buildSectionTitle('Ingredients'),
+              Text('Ingredients: ${widget.recipe.ingredents}'),
 
-            // Directions Section
-            _buildSectionTitle('Directions'),
-            Text('Directions: ${widget.recipe.directions}'),
+              // Directions Section
+              _buildSectionTitle('Directions'),
+              Text('Directions: ${widget.recipe.directions}'),
 
-            // Miscellaneous Section
-            _buildSectionTitle('Miscellaneous'),
-            Text('Notes: ${widget.recipe.notes}'),
-            Text('Image URL: ${widget.recipe.imageUrl}'),
+              // Miscellaneous Section
+              _buildSectionTitle('Miscellaneous'),
+              Text('Notes: ${widget.recipe.notes}'),
+              Text('Image URL: ${widget.recipe.imageUrl}'),
 
-            // Nutrition Section
-            _buildSectionTitle('Nutrition'),
-            Text('Serving Size: ${widget.recipe.servingSize}'),
-            Text('Calories: ${widget.recipe.calories}'),
-            Text('Total Fat: ${widget.recipe.totalfat}'),
-            Text('Saturated Fat: ${widget.recipe.saturatedFat}'),
-            Text('Saturated Fat: ${widget.recipe.transFat}'),
-            Text('Cholesterol: ${widget.recipe.cholesterol}'),
-            Text('Sodium: ${widget.recipe.sodium}'),
-            Text('Total Carbohydrates: ${widget.recipe.totalCarbohydrates}'),
-            Text('Dietary Fiber: ${widget.recipe.dietaryFiber}'),
-            Text('Sugar: ${widget.recipe.sugar}'),
-            Text('Protein: ${widget.recipe.protein}'),
-          ],
+              // Nutrition Section
+              _buildSectionTitle('Nutrition'),
+              Text('Serving Size: ${widget.recipe.servingSize}'),
+              Text('Calories: ${widget.recipe.calories}'),
+              Text('Total Fat: ${widget.recipe.totalfat}'),
+              Text('Saturated Fat: ${widget.recipe.saturatedFat}'),
+              Text('Saturated Fat: ${widget.recipe.transFat}'),
+              Text('Cholesterol: ${widget.recipe.cholesterol}'),
+              Text('Sodium: ${widget.recipe.sodium}'),
+              Text('Total Carbohydrates: ${widget.recipe.totalCarbohydrates}'),
+              Text('Dietary Fiber: ${widget.recipe.dietaryFiber}'),
+              Text('Sugar: ${widget.recipe.sugar}'),
+              Text('Protein: ${widget.recipe.protein}'),
+            ],
+          ),
         ),
-      ),
+      )
     );
   }
 

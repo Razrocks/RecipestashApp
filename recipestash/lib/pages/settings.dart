@@ -1,4 +1,8 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:recipestash/main.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -8,8 +12,32 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  bool isDarkModeEnabled = false; // Filler value
-  bool areNotificationsEnabled = false; // Filler value
+
+  Widget _buildThemeButton(Color color) {
+    return SizedBox(
+      width: 80, // Adjust the width as needed
+      height: 50, // Adjust the height as needed
+      // color: color,
+      child: ElevatedButton(
+        onPressed: () {
+          changeColor(color);
+        }, 
+        child: null,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: color
+        ),
+      )
+    );
+  }
+
+  void changeColor(Color color) {
+    setState(() {
+      preferences.r = color.red;
+      preferences.g = color.green;
+      preferences.b = color.blue;
+    });
+    print(preferences);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,22 +78,10 @@ class _SettingsState extends State<Settings> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               // Four buttons at the top with different logic
-              _buildThemeButton(const Color.fromARGB(255, 33, 54, 243), '', () {
-                // Add your logic for the blue theme button here
-                print('Blue Theme button pressed');
-              }),
-              _buildThemeButton(Colors.red, '', () {
-                // Add your logic for the red theme button here
-                print('Red Theme button pressed');
-              }),
-              _buildThemeButton(Colors.green, '', () {
-                // Add your logic for the green theme button here
-                print('Green Theme button pressed');
-              }),
-              _buildThemeButton(Colors.purple, '', () {
-                // Add your logic for the purple theme button here
-                print('Purple Theme button pressed');
-              }),
+              _buildThemeButton(const Color.fromARGB(255, 33, 54, 243)),
+              _buildThemeButton(const Color.fromARGB(255, 223, 0, 0)),
+              _buildThemeButton(const Color.fromARGB(255, 18, 175, 18)),
+              _buildThemeButton(const Color.fromARGB(255, 119, 13, 224))
             ],
           ),
           const SizedBox(height: 16), // Add some spacing between the two rows
@@ -73,18 +89,35 @@ class _SettingsState extends State<Settings> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               // Three buttons under the first three buttons
-              _buildSubThemeButton(Colors.lightBlue, '', () {
-                // Add your logic for the Light Blue sub-theme button here
-                print('Light Blue Sub-Theme button pressed');
-              }),
-              _buildSubThemeButton(Colors.yellow, '', () {
-                // Logic
-                print('Yellow Sub-Theme button pressed');
-              }),
-              _buildSubThemeButton(Colors.white, '', () {
-                // Logic
-                print('White Sub-Theme button pressed');
-              }),
+              _buildThemeButton(const Color.fromARGB(255, 103, 202, 248)),
+              _buildThemeButton(const Color.fromARGB(255, 255, 251, 0)),
+              Container(
+                width: 80,
+                height: 50,
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(colors: [Colors.red, Colors.yellow, Colors.green, Colors.blue, Colors.pink], begin: Alignment.bottomLeft, end: Alignment.topRight)
+                ),
+                child:ElevatedButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text('Pick a color!'),
+                          content:
+                        SingleChildScrollView(
+                        child: ColorPicker(
+                          pickerColor: Color.fromARGB(255, preferences.r!, preferences.g!, preferences.b!),
+                          onColorChanged: changeColor)));
+                      },
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(0, 0, 0, 0)
+                  ),
+                  child: const Icon(Icons.colorize_sharp),
+                )
+              )
             ],
           ),
           const SizedBox(height: 16), // Add some spacing before "Dark Mode" text
@@ -103,10 +136,10 @@ class _SettingsState extends State<Settings> {
                 ),
               ),
               Switch(
-                value: isDarkModeEnabled,
+                value: preferences.darkMode == 1 ? true : false,
                 onChanged: (value) {
                   setState(() {
-                    isDarkModeEnabled = value;
+                    preferences.darkMode = value ? 1 : 0;
                   });
                   // Add your Dark Mode switch logic here
                 },
@@ -128,10 +161,10 @@ class _SettingsState extends State<Settings> {
                 ),
               ),
               Switch(
-                value: areNotificationsEnabled,
+                value: preferences.notifications == 1 ? true : false,
                 onChanged: (value) {
                   setState(() {
-                    areNotificationsEnabled = value;
+                    preferences.notifications = value ? 1 : 0;
                   });
                   // Add your Notifications switch logic here
                 },
@@ -175,44 +208,6 @@ class _SettingsState extends State<Settings> {
             }),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildThemeButton(Color color, String label, VoidCallback onPressed) {
-    return Container(
-      width: 80, // Adjust the width as needed
-      height: 50, // Adjust the height as needed
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: color
-        ),
-        child: Text(
-          label,
-          style: const TextStyle(
-            fontSize: 16,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSubThemeButton(Color color, String label, VoidCallback onPressed) {
-    return Container(
-      width: 80, // Adjust the width as needed
-      height: 50, // Adjust the height as needed
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          primary: color,
-        ),
-        child: Text(
-          label,
-          style: const TextStyle(
-            fontSize: 16,
-          ),
-        ),
       ),
     );
   }
