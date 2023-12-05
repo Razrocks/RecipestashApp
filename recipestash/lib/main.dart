@@ -19,7 +19,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 //global preferences variable
 Preferences preferences =
-    Preferences(r: 255, g: 255, b: 255, darkMode: 0, notifications: 1);
+    Preferences(r:103, g:202, b:248, darkMode: 0, notifications: 1);
 
 Future<String> getRandomTip() async {
   Uri url = Uri.parse(
