@@ -7,6 +7,7 @@ import 'package:recipestash/pages/account.dart';
 import 'package:recipestash/pages/recipe_overview.dart';
 import 'package:recipestash/pages/recipe_form.dart';
 import 'package:recipestash/pages/settings.dart';
+import 'package:recipestash/pages/components/category_header.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -19,6 +20,7 @@ class _HomeState extends State<Home> {
   final User? user = Authentication().currentUser;
   final RecipeModel _model = RecipeModel();
   List<Recipe> recipes = [];
+  int selectedCategoryIndex = 0;
 
   @override
   void initState() {
@@ -41,14 +43,14 @@ class _HomeState extends State<Home> {
         ]));
   }
 
-  Widget categoriesHeader() {
-    return const Column(
-      children: [
-        Text('Categories',
-            style: TextStyle(fontWeight: FontWeight.bold), textScaleFactor: 1.5)
-      ],
-    );
-  }
+  // Widget categoriesHeader() {
+  //   return const Column(
+  //     children: [
+  //       Text('Categories',
+  //           style: TextStyle(fontWeight: FontWeight.bold), textScaleFactor: 1.5)
+  //     ],
+  //   );
+  // }
 
   Widget card(String text, double w, double h) {
     return Container(
@@ -66,29 +68,29 @@ class _HomeState extends State<Home> {
         ));
   }
 
-  Widget categories() {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            card('Breakfast', 120, 80),
-            card('Lunch', 120, 80),
-            card('Dinner', 120, 80),
-          ],
-        ),
-        const SizedBox(height: 10),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            card('Dessert', 120, 80),
-            card('Snacks', 120, 80),
-            card('Drinks', 120, 80),
-          ],
-        )
-      ],
-    );
-  }
+  // Widget categories() {
+  //   return Column(
+  //     children: [
+  //       Row(
+  //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  //         children: [
+  //           card('Breakfast', 120, 80),
+  //           card('Lunch', 120, 80),
+  //           card('Dinner', 120, 80),
+  //         ],
+  //       ),
+  //       const SizedBox(height: 10),
+  //       Row(
+  //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  //         children: [
+  //           card('Dessert', 120, 80),
+  //           card('Snacks', 120, 80),
+  //           card('Drinks', 120, 80),
+  //         ],
+  //       )
+  //     ],
+  //   );
+  // }
 
   Widget showRecipes() {
     return StreamBuilder(
@@ -176,22 +178,24 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        home: Scaffold(
-      body: Column(children: [
-        searchField(),
-        categoriesHeader(),
-        categories(),
-        const Divider(),
-        Expanded(child: showRecipes())
-      ]),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          addRecipe();
-        },
-        backgroundColor: Colors.grey,
-        child: const Icon(Icons.add),
+      home: Scaffold(
+        body: Column(
+          children: [
+            searchField(),
+            CategoryHeader(),
+            const Divider(),
+            Expanded(child: showRecipes())
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            addRecipe();
+          },
+          backgroundColor: Colors.grey,
+          child: const Icon(Icons.add),
+        ),
+        bottomNavigationBar: navBar(context),
       ),
-      bottomNavigationBar: navBar(context),
-    ));
+    );
   }
 }
