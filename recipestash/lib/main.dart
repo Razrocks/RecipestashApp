@@ -4,7 +4,6 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:recipestash/classes/preferences.dart';
 import 'package:recipestash/classes/preferences_model.dart';
-import 'package:recipestash/classes/recipe_model.dart';
 import 'package:recipestash/utilities/firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:recipestash/widget_tree.dart';
