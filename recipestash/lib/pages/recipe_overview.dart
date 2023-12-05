@@ -7,7 +7,7 @@ class RecipeOverview extends StatefulWidget {
   const RecipeOverview({Key? key, required this.recipe}) : super(key: key);
 
   @override
-  _RecipeOverviewState createState() => _RecipeOverviewState();
+  State<RecipeOverview> createState() => _RecipeOverviewState();
 }
 
 class _RecipeOverviewState extends State<RecipeOverview> {
@@ -15,16 +15,16 @@ class _RecipeOverviewState extends State<RecipeOverview> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.black,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
+        // backgroundColor: Colors.white,
+        // leading: IconButton(
+        //   icon: const Icon(
+        //     Icons.arrow_back,
+        //     color: Colors.black,
+        //   ),
+        //   onPressed: () {
+        //     Navigator.pop(context);
+        //   },
+        // ),
         title: const Text(
           'Recipe Overview',
           style: TextStyle(

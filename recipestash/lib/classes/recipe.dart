@@ -6,9 +6,9 @@ class Recipe {
   String? title; //mandatory
   String? category; //mandatory
   String? description; 
-  int? prepTime;
-  int? cookTime;
-  int? servings;
+  int? prepTime; //in minutes
+  int? cookTime; //in minutes
+  int? servings; //in number
   
   //ingredients tab
   String? ingredents; //mandatory

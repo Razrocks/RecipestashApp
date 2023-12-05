@@ -132,7 +132,7 @@ class _HomeState extends State<Home> {
   {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => RecipeForm(model: _model, isEdit: false,))
+      MaterialPageRoute(builder: (context) => RecipeForm(model: _model, isEdit: false))
     );
   }
 
