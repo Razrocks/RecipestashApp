@@ -14,8 +14,8 @@ class RecipeForm extends StatefulWidget {
 
 class _RecipeFormState extends State<RecipeForm>
 {
+  String _category = '';
   final _titleController = TextEditingController();
-  final _categoryController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _prepTimeController = TextEditingController();
   final _cookTimeController = TextEditingController();
@@ -42,7 +42,7 @@ class _RecipeFormState extends State<RecipeForm>
     if (widget.isEdit == true) {
       widget.model.getRecipebyId(widget.id!).then((recipe){
         _titleController.text = recipe.title ?? '';
-        _categoryController.text = recipe.category ?? '';
+        _category = recipe.category ?? '';
         _descriptionController.text = recipe.description ?? '';
         _prepTimeController.text = recipe.prepTime.toString();
         _cookTimeController.text = recipe.cookTime.toString();
@@ -68,7 +68,7 @@ class _RecipeFormState extends State<RecipeForm>
 
   void save(BuildContext context)
   {
-    if (_titleController.text == '' || _categoryController.text == '' || _ingredientsController.text == '' || _directionsController.text == '')
+    if (_titleController.text == '' || _category == '' || _ingredientsController.text == '' || _directionsController.text == '')
     {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('Please fill in all required fields'),
@@ -79,7 +79,7 @@ class _RecipeFormState extends State<RecipeForm>
       widget.model.updateRecipe(
         widget.id,
         _titleController.text,
-        _categoryController.text,
+        _category,
         _descriptionController.text,
         int.parse(_prepTimeController.text),
         int.parse(_cookTimeController.text),
@@ -103,7 +103,7 @@ class _RecipeFormState extends State<RecipeForm>
     } else {
       widget.model.addRecipe(
         _titleController.text,
-        _categoryController.text,
+        _category,
         _descriptionController.text,
         int.parse(_prepTimeController.text),
         int.parse(_cookTimeController.text),
@@ -132,7 +132,6 @@ class _RecipeFormState extends State<RecipeForm>
   void dispose()
   {
     _titleController.dispose();
-    _categoryController.dispose();
     _descriptionController.dispose();
     _prepTimeController.dispose();
     _cookTimeController.dispose();
@@ -169,7 +168,18 @@ class _RecipeFormState extends State<RecipeForm>
             TextField(controller: _titleController),
             const Divider(),
             const Text('Category', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            TextField(controller: _categoryController),
+            DropdownButtonFormField(
+              items: const [
+                DropdownMenuItem(value: 'Breakfast', child: Text('Breakfast')),
+                DropdownMenuItem(value: 'Lunch', child: Text('Lunch')),
+                DropdownMenuItem(value: 'Dinner', child: Text('Dinner')),
+                DropdownMenuItem(value: 'Dessert', child: Text('Dessert')),
+                DropdownMenuItem(value: 'Snack', child: Text('Snack')),
+                DropdownMenuItem(value: 'Drink', child: Text('Drink')),
+              ], 
+              onChanged: (value) {
+                _category = value!;
+              }),
             const Divider(),
             const Text('Description', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             TextField(controller: _descriptionController),
