@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:recipestash/classes/authentication.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -35,8 +33,8 @@ class _HomeState extends State<Home> {
   }
 
   Widget searchField() {
-    return Padding(
-      padding: EdgeInsets.all(10.0),
+    return  Padding(
+      padding: const EdgeInsets.all(10.0),
       child: Row(
         children: [
           Expanded(
@@ -174,12 +172,12 @@ class _HomeState extends State<Home> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Icon(Icons.home_outlined),
+          const Icon(Icons.home_outlined),
           IconButton(
             onPressed: () {
               navtoAccount(context);
             },
-            icon: Icon(Icons.account_circle_outlined),
+            icon: const Icon(Icons.account_circle_outlined),
           ),
           IconButton(
             onPressed: () {
