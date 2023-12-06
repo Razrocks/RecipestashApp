@@ -10,6 +10,7 @@ import 'package:recipestash/pages/recipe_overview.dart';
 import 'package:recipestash/pages/recipe_form.dart';
 import 'package:recipestash/pages/settings.dart';
 import 'package:recipestash/pages/components/category_header.dart';
+import 'package:recipestash/pages/components/recipe_search.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -44,6 +45,12 @@ class _HomeState extends State<Home> {
                 hintText: 'Search',
                 suffixIcon: Icon(Icons.search),
               ),
+              onTap: () {
+                showSearch(
+                  context: context,
+                  delegate: RecipeSearch(model: _model),
+                );
+              },
             ),
           ),
         ],
@@ -93,8 +100,10 @@ class _HomeState extends State<Home> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>
-                            RecipeOverview(recipe: recipes[index], model: _model),
+                        builder: (context) => RecipeOverview(
+                          recipe: recipes[index],
+                          model: _model,
+                        ),
                       ),
                     );
                   },
@@ -175,7 +184,7 @@ class _HomeState extends State<Home> {
       home: Scaffold(
         body: Column(
           children: [
-            searchField(),
+            searchField(context),
             CategoryHeader(
               onCategorySelected: (category) {
                 setState(() {
