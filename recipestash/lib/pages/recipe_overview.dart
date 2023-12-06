@@ -1,36 +1,82 @@
 import 'package:flutter/material.dart';
 import 'package:recipestash/classes/recipe.dart';
+import 'package:recipestash/classes/recipe_model.dart';
+import 'package:recipestash/pages/recipe_form.dart';
+import 'package:flutter_share/flutter_share.dart';
+import 'package:printing/printing.dart';
 
 class RecipeOverview extends StatefulWidget {
   final Recipe recipe;
+  final RecipeModel model;
 
-  const RecipeOverview({Key? key, required this.recipe}) : super(key: key);
+  const RecipeOverview({Key? key, required this.recipe, required this.model}) : super(key: key);
 
   @override
   State<RecipeOverview> createState() => _RecipeOverviewState();
 }
 
 class _RecipeOverviewState extends State<RecipeOverview> {
+  void moreMenu() {
+    showMenu(
+      context: context, 
+      position: RelativeRect.fromLTRB(MediaQuery.of(context).size.width, -MediaQuery.of(context).size.height, 0, 0),
+      items: [
+        PopupMenuItem(
+          child: const Text('Edit'),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => RecipeForm(model: widget.model, isEdit: true, recipe: widget.recipe))
+            );
+          }
+        ),
+        PopupMenuItem(
+          child: const Text('Share'),
+          onTap: () {
+            FlutterShare.share(title: "Recipe Share", text: widget.recipe.toString());
+          }
+        ), 
+        PopupMenuItem(
+          child: const Text('Print'),
+          onTap: () {
+            printPDF();
+          }
+        ),
+        PopupMenuItem(
+          child: const Text('Delete'),
+          onTap: () {
+            widget.model.deleteRecipe(widget.recipe.id);
+            Navigator.pop(context);
+          }
+        )
+      ]);
+  }
+
+  void printPDF() {
+    Printing.layoutPdf(
+      onLayout: (format) async => await Printing.convertHtml(
+        format: format,
+        html: widget.recipe.toHtmlString()
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // backgroundColor: Colors.white,
-        // leading: IconButton(
-        //   icon: const Icon(
-        //     Icons.arrow_back,
-        //     color: Colors.black,
-        //   ),
-        //   onPressed: () {
-        //     Navigator.pop(context);
-        //   },
-        // ),
         title: const Text(
           'Recipe Overview',
           style: TextStyle(
             color: Colors.black,
           ),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.more_vert_sharp),
+            onPressed: moreMenu
+          )
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -49,7 +95,7 @@ class _RecipeOverviewState extends State<RecipeOverview> {
 
               // Ingredients Section
               _buildSectionTitle('Ingredients'),
-              Text('Ingredients: ${widget.recipe.ingredents}'),
+              Text('Ingredients: ${widget.recipe.ingredients}'),
 
               // Directions Section
               _buildSectionTitle('Directions'),
@@ -64,7 +110,7 @@ class _RecipeOverviewState extends State<RecipeOverview> {
               _buildSectionTitle('Nutrition'),
               Text('Serving Size: ${widget.recipe.servingSize}'),
               Text('Calories: ${widget.recipe.calories}'),
-              Text('Total Fat: ${widget.recipe.totalfat}'),
+              Text('Total Fat: ${widget.recipe.totalFat}'),
               Text('Saturated Fat: ${widget.recipe.saturatedFat}'),
               Text('Saturated Fat: ${widget.recipe.transFat}'),
               Text('Cholesterol: ${widget.recipe.cholesterol}'),

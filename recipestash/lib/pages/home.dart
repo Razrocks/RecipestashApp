@@ -110,7 +110,7 @@ class _HomeState extends State<Home> {
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            RecipeOverview(recipe: recipes[index]),
+                            RecipeOverview(recipe: recipes[index], model: _model),
                       ),
                     );
                   },
