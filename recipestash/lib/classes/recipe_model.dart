@@ -34,56 +34,56 @@ class RecipeModel {
     dietaryFiber,
     sugar,
     protein,
-    ) async {
-      Recipe data = Recipe(
-        title: title,
-        category: category,
-        description: description,
-        prepTime: prepTime,
-        cookTime: cookTime,
-        servings: servings,
-        ingredients: ingredients,
-        directions: directions,
-        notes: notes,
-        imageUrl: imageUrl,
-        servingSize: servingSize,
-        calories: calories,
-        totalFat: totalFat,
-        saturatedFat: saturatedFat,
-        transFat: transFat,
-        cholesterol: cholesterol,
-        sodium: sodium,
-        totalCarbohydrates: totalCarbohydrates,
-        dietaryFiber: dietaryFiber,
-        sugar: sugar,
-        protein: protein,
-      );
-      DocumentReference? ref = await db?.add(data.toMap());
-      updateRecipe(
-        ref?.id,
-        title,
-        category,
-        description,
-        prepTime,
-        cookTime,
-        servings,
-        ingredients,
-        directions,
-        notes,
-        imageUrl,
-        servingSize,
-        calories,
-        totalFat,
-        saturatedFat,
-        transFat,
-        cholesterol,
-        sodium,
-        totalCarbohydrates,
-        dietaryFiber,
-        sugar,
-        protein,
-      );
-    }
+  ) async {
+    Recipe data = Recipe(
+      title: title,
+      category: category,
+      description: description,
+      prepTime: prepTime,
+      cookTime: cookTime,
+      servings: servings,
+      ingredients: ingredients,
+      directions: directions,
+      notes: notes,
+      imageUrl: imageUrl,
+      servingSize: servingSize,
+      calories: calories,
+      totalFat: totalFat,
+      saturatedFat: saturatedFat,
+      transFat: transFat,
+      cholesterol: cholesterol,
+      sodium: sodium,
+      totalCarbohydrates: totalCarbohydrates,
+      dietaryFiber: dietaryFiber,
+      sugar: sugar,
+      protein: protein,
+    );
+    DocumentReference? ref = await db?.add(data.toMap());
+    updateRecipe(
+      ref?.id,
+      title,
+      category,
+      description,
+      prepTime,
+      cookTime,
+      servings,
+      ingredients,
+      directions,
+      notes,
+      imageUrl,
+      servingSize,
+      calories,
+      totalFat,
+      saturatedFat,
+      transFat,
+      cholesterol,
+      sodium,
+      totalCarbohydrates,
+      dietaryFiber,
+      sugar,
+      protein,
+    );
+  }
 
   Future<void> updateRecipe(
     id,
@@ -108,34 +108,34 @@ class RecipeModel {
     dietaryFiber,
     sugar,
     protein,
-    ) async {
-      DocumentReference ref = db!.doc(id);
-      Recipe data = Recipe(
-        id: id,
-        title: title,
-        category: category,
-        description: description,
-        prepTime: prepTime,
-        cookTime: cookTime,
-        servings: servings,
-        ingredients: ingredients,
-        directions: directions,
-        notes: notes,
-        imageUrl: imageUrl,
-        servingSize: servingSize,
-        calories: calories,
-        totalFat: totalFat,
-        saturatedFat: saturatedFat,
-        transFat: transFat,
-        cholesterol: cholesterol,
-        sodium: sodium,
-        totalCarbohydrates: totalCarbohydrates,
-        dietaryFiber: dietaryFiber,
-        sugar: sugar,
-        protein: protein,
-      );
-      await ref.update(data.toMap());
-    }
+  ) async {
+    DocumentReference ref = db!.doc(id);
+    Recipe data = Recipe(
+      id: id,
+      title: title,
+      category: category,
+      description: description,
+      prepTime: prepTime,
+      cookTime: cookTime,
+      servings: servings,
+      ingredients: ingredients,
+      directions: directions,
+      notes: notes,
+      imageUrl: imageUrl,
+      servingSize: servingSize,
+      calories: calories,
+      totalFat: totalFat,
+      saturatedFat: saturatedFat,
+      transFat: transFat,
+      cholesterol: cholesterol,
+      sodium: sodium,
+      totalCarbohydrates: totalCarbohydrates,
+      dietaryFiber: dietaryFiber,
+      sugar: sugar,
+      protein: protein,
+    );
+    await ref.update(data.toMap());
+  }
 
   Future<void> deleteRecipe(id) async {
     db?.doc(id).delete();
@@ -162,12 +162,35 @@ class RecipeModel {
   }
 
   Stream<List<Recipe>> getRecipesByCategory(String category) {
-    return db!
-        .where('category', isEqualTo: category)
-        .snapshots()
-        .map((snapshot) => snapshot.docs.map((doc) {
-              return Recipe.fromMap(doc.data() as Map<String, dynamic>,
-                  reference: doc.reference);
-            }).toList());
+    // Check if the category is null or empty, then return all recipes
+    if (category.isEmpty) {
+      return db!.snapshots().map((snapshot) => snapshot.docs.map((doc) {
+            return Recipe.fromMap(doc.data() as Map<String, dynamic>,
+                reference: doc.reference);
+          }).toList());
+    } else {
+      return db!
+          .where('category', isEqualTo: category)
+          .snapshots()
+          .map((snapshot) => snapshot.docs.map((doc) {
+                return Recipe.fromMap(doc.data() as Map<String, dynamic>,
+                    reference: doc.reference);
+              }).toList());
+    }
+  }
+
+  Stream<List<Recipe>> searchRecipes(String category, String query) {
+    // Create a Firestore query based on the selected category and search query
+    Query queryRef = db!.where('category', isEqualTo: category);
+
+    // If the query is not empty, add a filter for the title
+    if (query.isNotEmpty) {
+      queryRef = queryRef.where('title', isGreaterThanOrEqualTo: query);
+    }
+
+    return queryRef.snapshots().map((snapshot) => snapshot.docs.map((doc) {
+          return Recipe.fromMap(doc.data() as Map<String, dynamic>,
+              reference: doc.reference);
+        }).toList());
   }
 }

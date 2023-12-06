@@ -26,6 +26,7 @@ class Categories extends StatefulWidget {
 
 class _CategoriesState extends State<Categories> {
   List<String> categories = [
+    "All",
     "Breakfast",
     "Lunch",
     "Dinner",
@@ -53,9 +54,13 @@ class _CategoriesState extends State<Categories> {
   Widget buildCategoryItem(int index) {
     return GestureDetector(
       onTap: () {
-        widget.onCategorySelected(
-            categories[index]); // Pass the selected category
         setState(() {
+          if (index == 0) {
+            // "All" category selected
+            widget.onCategorySelected(""); // Pass an empty string for "All"
+          } else {
+            widget.onCategorySelected(categories[index]);
+          }
           selectedIndex = index;
         });
       },

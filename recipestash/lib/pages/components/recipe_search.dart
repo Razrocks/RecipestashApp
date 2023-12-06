@@ -42,7 +42,6 @@ class RecipeSearch extends SearchDelegate<String> {
   @override
   Widget buildSuggestions(BuildContext context) {
     // Display suggestions based on user input
-    // You can customize this based on your requirements
     return Container();
   }
 
