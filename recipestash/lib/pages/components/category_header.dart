@@ -84,7 +84,7 @@ class _CategoriesState extends State<Categories> {
           style: TextStyle(
             fontWeight: FontWeight.bold,
             color: selectedIndex == index
-                ? Color.fromARGB(255, 1, 1, 211)
+                ? Color.fromARGB(255, preferences.r!, preferences.g!, preferences.b!)
                 : Color(0xFFC2C2B5),
           ),
         ),

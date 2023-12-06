@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:recipestash/classes/authentication.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:recipestash/classes/preferences_model.dart';
@@ -53,7 +54,7 @@ class _HomeState extends State<Home> {
                 );
               },
             ),
-          )
+          ),
         ],
       ),
     );
@@ -198,6 +199,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        backgroundColor: preferences.darkMode == 1 ? Colors.black : Colors.white,
         body: Column(
           children: [
             searchField(),
@@ -225,3 +227,4 @@ class _HomeState extends State<Home> {
     );
   }
 }
+

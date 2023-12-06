@@ -220,10 +220,12 @@ class _SettingsState extends State<Settings> {
           ListTile(
             title: const Text('Dark Mode', style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold)),
             trailing: Switch(
+              activeColor: Color.fromARGB(255, preferences.r!, preferences.g!, preferences.b!),
               value: preferences.darkMode == 1 ? true : false,
               onChanged: (value) {
                 setState(() {
                   preferences.darkMode = value ? 1 : 0;
+                  PreferencesModel().update(preferences);
                 });
                 // Add your Dark Mode switch logic here
               },
@@ -232,6 +234,7 @@ class _SettingsState extends State<Settings> {
           ListTile(
             title: const Text('Notifications', style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold)),
             trailing: Switch(
+              activeColor: Color.fromARGB(255, preferences.r!, preferences.g!, preferences.b!),
               value: preferences.notifications == 1 ? true : false,
               onChanged: (value) {
                 setState(() {
