@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:recipestash/classes/authentication.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -29,8 +31,8 @@ class _HomeState extends State<Home> {
   }
 
   Widget searchField() {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
+    return const Padding(
+      padding: EdgeInsets.all(10.0),
       child: Row(
         children: [
           Expanded(
@@ -49,19 +51,26 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Widget card(String text, double w, double h) {
+  Widget card(String text, double w, double h, String imgUrl) {
     return Container(
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
+      width: w,
+      height: h,
+      decoration:
+      BoxDecoration(
+        borderRadius: BorderRadius.circular(15),
+        image: DecorationImage(image: NetworkImage(imgUrl), fit: BoxFit.cover)
+      ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            width: w,
-            height: h,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              color: Colors.grey,
-            ),
-            child: Center(child: Text(text)),
+          Stack(
+            children: [
+              // Stroked text as border.
+              Text(text, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30, foreground: Paint()..style = PaintingStyle.stroke..strokeWidth = 3)),
+              // Solid text as fill.
+              Text(text, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 30)),
+            ],
           ),
         ],
       ),
@@ -89,7 +98,7 @@ class _HomeState extends State<Home> {
                       ),
                     );
                   },
-                  child: card(recipes[index].title!, 350, 130),
+                  child: card(recipes[index].title, 350, 130, recipes[index].imageUrl),
                 ),
               );
             },

@@ -3,60 +3,60 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Recipe {
   //overview tab
   String? id;
-  String? title; //mandatory
-  String? category; //mandatory
-  String? description; 
-  int? prepTime; //in minutes
-  int? cookTime; //in minutes
-  int? servings; //in number
-  
+  late String title; //mandatory
+  late String category; //mandatory
+  late String description; 
+  late int prepTime; //in minutes
+  late int cookTime; //in minutes
+  late int servings; //in number
+   
   //ingredients tab
-  String? ingredients; //mandatory
-
+  late String ingredients; //mandatory
+ 
   //directions tab
-  String? directions; //mandatory
-
+  late String directions; //mandatory
+ 
   //other tab
-  String? notes;
-  String? imageUrl; //uploaded image url
-
+  late String notes;
+  late String imageUrl; //uploaded image url
+ 
   //nutrition tab
-  double? servingSize; //in g
-  double? calories; //in kcal
-  double? totalFat; //in g
-  double? saturatedFat; //in g
-  double? transFat; //in g
-  double? cholesterol; //in mg
-  double? sodium; //in mg
-  double? totalCarbohydrates; //in g
-  double? dietaryFiber; //in g
-  double? sugar; //in g
-  double? protein; //in g
+  late double servingSize; //in g
+  late double calories; //in kcal
+  late double totalFat; //in g
+  late double saturatedFat; //in g
+  late double transFat; //in g
+  late double cholesterol; //in mg
+  late double sodium; //in mg
+  late double totalCarbohydrates; //in g
+  late double dietaryFiber; //in g
+  late double sugar; //in g
+  late double protein; //in g
   DocumentReference? reference;
 
   Recipe({
     this.id,
     required this.title,
     required this.category,
-    this.description,
-    this.prepTime,
-    this.cookTime,
-    this.servings,
-    this.ingredients,
-    this.directions,
-    this.notes,
-    this.imageUrl,
-    this.servingSize,
-    this.calories,
-    this.totalFat,
-    this.saturatedFat,
-    this.transFat,
-    this.cholesterol,
-    this.sodium,
-    this.totalCarbohydrates,
-    this.dietaryFiber,
-    this.sugar,
-    this.protein,
+    required this.description,
+    required this.prepTime,
+    required this.cookTime,
+    required this.servings,
+    required this.ingredients,
+    required this.directions,
+    required this.notes,
+    required this.imageUrl,
+    required this.servingSize,
+    required this.calories,
+    required this.totalFat,
+    required this.saturatedFat,
+    required this.transFat,
+    required this.cholesterol,
+    required this.sodium,
+    required this.totalCarbohydrates,
+    required this.dietaryFiber,
+    required this.sugar,
+    required this.protein,
   });
 
   Map<String, dynamic> toMap()
@@ -119,9 +119,9 @@ class Recipe {
         Title: $title
         Category: $category
         Description: $description
-        Prep Time: ${prepTime ?? 'N/A'} minutes
-        Cook Time: ${cookTime ?? 'N/A'} minutes
-        Servings: ${servings ?? 'N/A'}
+        Prep Time: $prepTime minutes
+        Cook Time: $cookTime minutes
+        Servings: $servings
 
         Ingredients:
             $ingredients
@@ -133,17 +133,17 @@ class Recipe {
             Notes: $notes
 
         Nutrition:
-            Serving Size: ${servingSize ?? 'N/A'} g
-            Calories: ${calories ?? 'N/A'} kcal
-            Total Fat: ${totalFat ?? 'N/A'} g
-            Saturated Fat: ${saturatedFat ?? 'N/A'} g
-            Trans Fat: ${transFat ?? 'N/A'} g
-            Cholesterol: ${cholesterol ?? 'N/A'} mg
-            Sodium: ${sodium ?? 'N/A'} mg
-            Total Carbohydrates: ${totalCarbohydrates ?? 'N/A'} g
-            Dietary Fiber: ${dietaryFiber ?? 'N/A'} g
-            Sugar: ${sugar ?? 'N/A'} g
-            Protein: ${protein ?? 'N/A'} g
+            Serving Size: $servingSize g
+            Calories: $calories kcal
+            Total Fat: $totalFat g
+            Saturated Fat: $saturatedFat g
+            Trans Fat: $transFat g
+            Cholesterol: $cholesterol mg
+            Sodium: $sodium mg
+            Total Carbohydrates: $totalCarbohydrates g
+            Dietary Fiber: $dietaryFiber g
+            Sugar: $sugar g
+            Protein: $protein g
     ''';
   }
 
@@ -151,37 +151,37 @@ class Recipe {
     return '''
       <html>
       <head>
-        <title>${title ?? 'Untitled Recipe'}</title>
+        <title>$title</title>
       </head>
       <body>
-        <h1>${title ?? 'Untitled Recipe'}</h1>
-        <h2>Category: ${category ?? 'N/A'}</h2>
-        <p>Description: ${description ?? 'N/A'}</p>
-        <p>Prep Time: ${prepTime ?? 'N/A'} minutes</p>
-        <p>Cook Time: ${cookTime ?? 'N/A'} minutes</p>
-        <p>Servings: ${servings ?? 'N/A'}</p>
+        <h1>$title</h1>
+        <h2>Category: $category</h2>
+        <p>Description: $description</p>
+        <p>Prep Time: $prepTime minutes</p>
+        <p>Cook Time: $cookTime minutes</p>
+        <p>Servings: $servings</p>
 
         <h2>Ingredients:</h2>
-        <p>${ingredients ?? 'N/A'}</p>
+        <p>$ingredients</p>
 
         <h2>Directions:</h2>
-        <p>${directions ?? 'N/A'}</p>
+        <p>$directions</p>
 
         <h2>Other:</h2>
-        <p>Notes: ${notes ?? 'N/A'}</p>
+        <p>Notes: $notes</p>
 
         <h2>Nutrition:</h2>
-        <p>Serving Size: ${servingSize ?? 'N/A'} g</p>
-        <p>Calories: ${calories ?? 'N/A'} kcal</p>
-        <p>Total Fat: ${totalFat ?? 'N/A'} g</p>
-        <p>Saturated Fat: ${saturatedFat ?? 'N/A'} g</p>
-        <p>Trans Fat: ${transFat ?? 'N/A'} g</p>
-        <p>Cholesterol: ${cholesterol ?? 'N/A'} mg</p>
-        <p>Sodium: ${sodium ?? 'N/A'} mg</p>
-        <p>Total Carbohydrates: ${totalCarbohydrates ?? 'N/A'} g</p>
-        <p>Dietary Fiber: ${dietaryFiber ?? 'N/A'} g</p>
-        <p>Sugar: ${sugar ?? 'N/A'} g</p>
-        <p>Protein: ${protein ?? 'N/A'} g</p>
+        <p>Serving Size: $servingSize g</p>
+        <p>Calories: $calories kcal</p>
+        <p>Total Fat: $totalFat g</p>
+        <p>Saturated Fat: $saturatedFat g</p>
+        <p>Trans Fat: $transFat g</p>
+        <p>Cholesterol: $cholesterol mg</p>
+        <p>Sodium: $sodium mg</p>
+        <p>Total Carbohydrates: $totalCarbohydrates g</p>
+        <p>Dietary Fiber: $dietaryFiber g</p>
+        <p>Sugar: $sugar g</p>
+        <p>Protein: $protein g</p>
       </body>
       </html>
     ''';

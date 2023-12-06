@@ -85,6 +85,7 @@ class _RecipeOverviewState extends State<RecipeOverview> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Overview Section
+              Image(image: NetworkImage(widget.recipe.imageUrl)),
               _buildSectionTitle('Overview'),
               _buildRecipeDetail('Title', widget.recipe.title),
               _buildRecipeDetail('Category', widget.recipe.category),

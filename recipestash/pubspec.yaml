@@ -10,6 +10,7 @@ dependencies:
   cloud_firestore: ^4.12.2
   firebase_auth: ^4.13.0
   firebase_core: ^2.21.0
+  firebase_storage: ^11.5.3
   flutter:
     sdk: flutter
   flutter_colorpicker: ^1.0.3
@@ -17,6 +18,7 @@ dependencies:
   flutter_share: ^2.0.0
   google_sign_in: ^6.1.6
   http: ^1.1.0
+  image_picker: ^1.0.4
   path: ^1.8.3
   permission_handler: ^11.0.1
   printing: ^5.11.1
