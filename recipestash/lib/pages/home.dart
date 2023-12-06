@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:recipestash/classes/authentication.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -32,13 +30,13 @@ class _HomeState extends State<Home> {
   }
 
   Widget searchField() {
-    return const Padding(
-      padding: EdgeInsets.all(10.0),
+    return  Padding(
+      padding: const EdgeInsets.all(10.0),
       child: Row(
         children: [
           Expanded(
             child: TextField(
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(15.0)),
                 ),
@@ -156,12 +154,12 @@ class _HomeState extends State<Home> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Icon(Icons.home_outlined),
+          const Icon(Icons.home_outlined),
           IconButton(
             onPressed: () {
               navtoAccount(context);
             },
-            icon: Icon(Icons.account_circle_outlined),
+            icon: const Icon(Icons.account_circle_outlined),
           ),
           IconButton(
             onPressed: () {
@@ -184,7 +182,7 @@ class _HomeState extends State<Home> {
       home: Scaffold(
         body: Column(
           children: [
-            searchField(context),
+            searchField(),
             CategoryHeader(
               onCategorySelected: (category) {
                 setState(() {

@@ -54,7 +54,7 @@ class RecipeSearch extends SearchDelegate<String> {
           List<Recipe>? recipes = snapshot.data;
           List<Recipe> filteredRecipes = recipes!
               .where((recipe) =>
-                  recipe.title!.toLowerCase().contains(query.toLowerCase()))
+                  recipe.title.toLowerCase().contains(query.toLowerCase()))
               .toList();
 
           return ListView.builder(
@@ -74,7 +74,7 @@ class RecipeSearch extends SearchDelegate<String> {
                       ),
                     );
                   },
-                  child: card(filteredRecipes[index].title!, 350, 130),
+                  child: card(filteredRecipes[index].title, 350, 130),
                 ),
               );
             },
