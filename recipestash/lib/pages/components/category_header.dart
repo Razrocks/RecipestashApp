@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
 
 class CategoryHeader extends StatelessWidget {
-  // const CategoryHeader({Key? key, required this.text}) : super(key: key);
+  final ValueChanged<String> onCategorySelected;
 
-  // final String text;
+  const CategoryHeader({required this.onCategorySelected});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Categories(),
+        Categories(onCategorySelected: onCategorySelected),
       ],
     );
   }
 }
 
 class Categories extends StatefulWidget {
+  final ValueChanged<String> onCategorySelected;
+
+  const Categories({required this.onCategorySelected});
+
   @override
   State<Categories> createState() => _CategoriesState();
 }
@@ -49,6 +53,8 @@ class _CategoriesState extends State<Categories> {
   Widget buildCategoryItem(int index) {
     return GestureDetector(
       onTap: () {
+        widget.onCategorySelected(
+            categories[index]); // Pass the selected category
         setState(() {
           selectedIndex = index;
         });

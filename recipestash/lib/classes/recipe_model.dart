@@ -143,18 +143,31 @@ class RecipeModel {
 
   Stream<List<Recipe>> getAllRecipes() {
     return db!.snapshots().map((snapshot) => snapshot.docs.map((doc) {
-      return Recipe.fromMap(doc.data() as Map<String, dynamic>, reference: doc.reference);
-    }).toList());
+          return Recipe.fromMap(doc.data() as Map<String, dynamic>,
+              reference: doc.reference);
+        }).toList());
   }
 
   Future<Recipe> getRecipebyId(String id) async {
     DocumentSnapshot documentSnapshot = await db!.doc(id).get();
-    return Recipe.fromMap(documentSnapshot.data() as Map<String, dynamic>, reference: documentSnapshot.reference);
+    return Recipe.fromMap(documentSnapshot.data() as Map<String, dynamic>,
+        reference: documentSnapshot.reference);
   }
 
   Future<void> deleteAllRecipe() async {
     QuerySnapshot querySnapshot = await db!.get();
-    for (QueryDocumentSnapshot element in querySnapshot.docs) { 
-      element.reference.delete();}
+    for (QueryDocumentSnapshot element in querySnapshot.docs) {
+      element.reference.delete();
+    }
+  }
+
+  Stream<List<Recipe>> getRecipesByCategory(String category) {
+    return db!
+        .where('category', isEqualTo: category)
+        .snapshots()
+        .map((snapshot) => snapshot.docs.map((doc) {
+              return Recipe.fromMap(doc.data() as Map<String, dynamic>,
+                  reference: doc.reference);
+            }).toList());
   }
 }

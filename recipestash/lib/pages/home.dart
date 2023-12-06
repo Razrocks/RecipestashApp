@@ -10,7 +10,7 @@ import 'package:recipestash/pages/settings.dart';
 import 'package:recipestash/pages/components/category_header.dart';
 
 class Home extends StatefulWidget {
-  const Home({super.key});
+  const Home({Key? key}) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
@@ -20,7 +20,7 @@ class _HomeState extends State<Home> {
   final User? user = Authentication().currentUser;
   final RecipeModel _model = RecipeModel();
   List<Recipe> recipes = [];
-  int selectedCategoryIndex = 0;
+  String selectedCategory = "Breakfast"; // Default category
 
   @override
   void initState() {
@@ -29,72 +29,48 @@ class _HomeState extends State<Home> {
   }
 
   Widget searchField() {
-    return const Padding(
-        padding: EdgeInsets.all(10.0),
-        child: Row(children: [
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Row(
+        children: [
           Expanded(
-              child: TextField(
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(15.0))),
-                      hintText: 'Search',
-                      suffixIcon: Icon(Icons.search))))
-        ]));
+            child: TextField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                ),
+                hintText: 'Search',
+                suffixIcon: Icon(Icons.search),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
-
-  // Widget categoriesHeader() {
-  //   return const Column(
-  //     children: [
-  //       Text('Categories',
-  //           style: TextStyle(fontWeight: FontWeight.bold), textScaleFactor: 1.5)
-  //     ],
-  //   );
-  // }
 
   Widget card(String text, double w, double h) {
     return Container(
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
-        child: Column(
-          children: [
-            Container(
-              width: w,
-              height: h,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15), color: Colors.grey),
-              child: Center(child: Text(text)),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
+      child: Column(
+        children: [
+          Container(
+            width: w,
+            height: h,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              color: Colors.grey,
             ),
-          ],
-        ));
+            child: Center(child: Text(text)),
+          ),
+        ],
+      ),
+    );
   }
 
-  // Widget categories() {
-  //   return Column(
-  //     children: [
-  //       Row(
-  //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  //         children: [
-  //           card('Breakfast', 120, 80),
-  //           card('Lunch', 120, 80),
-  //           card('Dinner', 120, 80),
-  //         ],
-  //       ),
-  //       const SizedBox(height: 10),
-  //       Row(
-  //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  //         children: [
-  //           card('Dessert', 120, 80),
-  //           card('Snacks', 120, 80),
-  //           card('Drinks', 120, 80),
-  //         ],
-  //       )
-  //     ],
-  //   );
-  // }
-
-  Widget showRecipes() {
+  Widget showRecipes(String selectedCategory) {
     return StreamBuilder(
-      stream: _model.getAllRecipes(),
+      stream: _model.getRecipesByCategory(selectedCategory),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           recipes = snapshot.data!;
@@ -105,7 +81,6 @@ class _HomeState extends State<Home> {
                 padding: const EdgeInsets.all(5),
                 child: GestureDetector(
                   onTap: () {
-                    // Navigate to the RecipeOverview page when a recipe is tapped
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -130,45 +105,55 @@ class _HomeState extends State<Home> {
     );
   }
 
-  void addRecipe()
-  {
+  void addRecipe() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => RecipeForm(model: _model, isEdit: false))
+      MaterialPageRoute(
+        builder: (context) => RecipeForm(
+          model: _model,
+          isEdit: false,
+        ),
+      ),
     );
   }
 
   void navtoAccount(BuildContext context) {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const Account()));
+      context,
+      MaterialPageRoute(builder: (context) => const Account()),
+    );
   }
 
   void navtoSetting(BuildContext context) {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const Settings()));
+      context,
+      MaterialPageRoute(builder: (context) => const Settings()),
+    );
   }
 
   Widget navBar(BuildContext context) {
     return BottomAppBar(
-        height: 40,
-        color: Colors.grey,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            // ones that are only icon need their pages before they can be navigated to
-            Icon(Icons.home_outlined),
-            IconButton(
-                onPressed: () {
-                  navtoAccount(context);
-                },
-                icon: Icon(Icons.account_circle_outlined)),
-            IconButton(
-                onPressed: () {
-                  navtoSetting(context);
-                },
-                icon: Icon(Icons.settings_outlined)),
-          ],
-        ));
+      height: 40,
+      color: Colors.grey,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Icon(Icons.home_outlined),
+          IconButton(
+            onPressed: () {
+              navtoAccount(context);
+            },
+            icon: Icon(Icons.account_circle_outlined),
+          ),
+          IconButton(
+            onPressed: () {
+              navtoSetting(context);
+            },
+            icon: Icon(Icons.settings_outlined),
+          ),
+        ],
+      ),
+    );
   }
 
   Future<void> signOut() async {
@@ -182,9 +167,15 @@ class _HomeState extends State<Home> {
         body: Column(
           children: [
             searchField(),
-            CategoryHeader(),
+            CategoryHeader(
+              onCategorySelected: (category) {
+                setState(() {
+                  selectedCategory = category;
+                });
+              },
+            ),
             const Divider(),
-            Expanded(child: showRecipes())
+            Expanded(child: showRecipes(selectedCategory)),
           ],
         ),
         floatingActionButton: FloatingActionButton(
