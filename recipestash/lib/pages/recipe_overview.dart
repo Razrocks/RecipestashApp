@@ -1,9 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:recipestash/classes/preferences.dart';
+import 'package:recipestash/classes/preferences_model.dart';
 import 'package:recipestash/classes/recipe.dart';
 import 'package:recipestash/classes/recipe_model.dart';
 import 'package:recipestash/pages/recipe_form.dart';
 import 'package:flutter_share/flutter_share.dart';
 import 'package:printing/printing.dart';
+import 'package:recipestash/main.dart';
+import 'package:recipestash/pages/settings.dart';
+import 'package:recipestash/pages/home.dart';
+
+void main() async {
+  await initializePreferences();
+}
+
+Future<void> initializePreferences() async {
+  Preferences preferences = await PreferencesModel().get();
+}
 
 class RecipeOverview extends StatefulWidget {
   final Recipe recipe;
@@ -65,6 +78,7 @@ class _RecipeOverviewState extends State<RecipeOverview> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor:  Color.fromARGB( 255,preferences.r!, preferences.g!, preferences.b!),
         title: const Text(
           'Recipe Overview',
           style: TextStyle(

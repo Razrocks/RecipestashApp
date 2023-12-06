@@ -1,7 +1,22 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:recipestash/classes/authentication.dart';
+import 'package:recipestash/classes/preferences.dart';
+import 'package:recipestash/classes/preferences_model.dart';
 import 'package:recipestash/classes/recipe_model.dart';
+import 'package:recipestash/main.dart';
+import 'package:recipestash/pages/settings.dart';
+import 'package:recipestash/pages/home.dart';
+
+
+void main() async {
+  await initializePreferences();
+}
+
+Future<void> initializePreferences() async {
+  Preferences preferences = await PreferencesModel().get();
+}
+
 
 class Account extends StatelessWidget {
   const Account({Key? key}) : super(key: key);
@@ -29,7 +44,7 @@ class Account extends StatelessWidget {
             fontSize: 20,
           ),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: Color.fromARGB( 255,preferences.r!, preferences.g!, preferences.b!),
         iconTheme: const IconThemeData(color: Colors.black),
       ),
       body: Column(

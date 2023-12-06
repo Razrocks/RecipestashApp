@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:recipestash/main.dart';
+
 
 class CategoryHeader extends StatelessWidget {
   final ValueChanged<String> onCategorySelected;
@@ -25,6 +27,7 @@ class Categories extends StatefulWidget {
 }
 
 class _CategoriesState extends State<Categories> {
+   // Default theme color
   List<String> categories = [
     "Breakfast",
     "Lunch",

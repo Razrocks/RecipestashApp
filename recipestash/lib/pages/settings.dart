@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:recipestash/classes/preferences_model.dart';
 import 'package:recipestash/main.dart';
 
 class Settings extends StatefulWidget {
@@ -12,21 +13,24 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
+  Color selectedThemeColor = Color.fromARGB(255, preferences.r!, preferences.g!, preferences.b!); // Default theme color
 
   Widget _buildThemeButton(Color color) {
     return SizedBox(
-      width: 80, // Adjust the width as needed
-      height: 50, // Adjust the height as needed
-      // color: color,
+      width: 80,
+      height: 50,
       child: ElevatedButton(
         onPressed: () {
           changeColor(color);
-        }, 
+          setState(() {
+            selectedThemeColor = color;
+          });
+        },
         child: null,
         style: ElevatedButton.styleFrom(
-          backgroundColor: color
+          backgroundColor: color,
         ),
-      )
+      ),
     );
   }
 
@@ -35,6 +39,8 @@ class _SettingsState extends State<Settings> {
       preferences.r = color.red;
       preferences.g = color.green;
       preferences.b = color.blue;
+
+      PreferencesModel().update(preferences);
     });
     print(preferences);
   }
@@ -43,7 +49,7 @@ class _SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Color.fromARGB( 255,preferences.r!, preferences.g!, preferences.b!),
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back,
@@ -61,7 +67,7 @@ class _SettingsState extends State<Settings> {
         ),
       ),
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start, // Align children to the start (left)
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Padding(
             padding: EdgeInsets.all(16.0),
@@ -77,50 +83,58 @@ class _SettingsState extends State<Settings> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              // Four buttons at the top with different logic
               _buildThemeButton(const Color.fromARGB(255, 33, 54, 243)),
               _buildThemeButton(const Color.fromARGB(255, 223, 0, 0)),
               _buildThemeButton(const Color.fromARGB(255, 18, 175, 18)),
-              _buildThemeButton(const Color.fromARGB(255, 119, 13, 224))
+              _buildThemeButton(const Color.fromARGB(255, 119, 13, 224)),
             ],
           ),
-          const SizedBox(height: 16), // Add some spacing between the two rows
+          const SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              // Three buttons under the first three buttons
               _buildThemeButton(const Color.fromARGB(255, 103, 202, 248)),
               _buildThemeButton(const Color.fromARGB(255, 255, 251, 0)),
               Container(
                 width: 80,
                 height: 50,
                 decoration: const BoxDecoration(
-                  gradient: LinearGradient(colors: [Colors.red, Colors.yellow, Colors.green, Colors.blue, Colors.pink], begin: Alignment.bottomLeft, end: Alignment.topRight)
+                  gradient: LinearGradient(
+                      colors: [
+                        Colors.red,
+                        Colors.yellow,
+                        Colors.green,
+                        Colors.blue,
+                        Colors.pink
+                      ],
+                      begin: Alignment.bottomLeft,
+                      end: Alignment.topRight),
                 ),
-                child:ElevatedButton(
+                child: ElevatedButton(
                   onPressed: () {
                     showDialog(
                       context: context,
                       builder: (context) {
                         return AlertDialog(
                           title: const Text('Pick a color!'),
-                          content:
-                        SingleChildScrollView(
-                        child: ColorPicker(
-                          pickerColor: Color.fromARGB(255, preferences.r!, preferences.g!, preferences.b!),
-                          onColorChanged: changeColor)));
+                          content: SingleChildScrollView(
+                            child: ColorPicker(
+                                pickerColor: Color.fromARGB(
+                                    255, preferences.r!, preferences.g!, preferences.b!),
+                                onColorChanged: changeColor),
+                          ),
+                        );
                       },
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(0, 0, 0, 0)
-                  ),
+                      backgroundColor: const Color.fromARGB(0, 0, 0, 0)),
                   child: const Icon(Icons.colorize_sharp),
-                )
+                ),
               )
             ],
           ),
-          const SizedBox(height: 16), // Add some spacing before "Dark Mode" text
+          const SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -136,12 +150,13 @@ class _SettingsState extends State<Settings> {
                 ),
               ),
               Switch(
+                activeColor: Color.fromARGB( 255,preferences.r!, preferences.g!, preferences.b!),
                 value: preferences.darkMode == 1 ? true : false,
                 onChanged: (value) {
                   setState(() {
                     preferences.darkMode = value ? 1 : 0;
+                    PreferencesModel().update(preferences);
                   });
-                  // Add your Dark Mode switch logic here
                 },
               ),
             ],
@@ -161,12 +176,13 @@ class _SettingsState extends State<Settings> {
                 ),
               ),
               Switch(
+                activeColor: Color.fromARGB( 255,preferences.r!, preferences.g!, preferences.b!),
                 value: preferences.notifications == 1 ? true : false,
                 onChanged: (value) {
                   setState(() {
                     preferences.notifications = value ? 1 : 0;
+                    PreferencesModel().update(preferences);
                   });
-                  // Add your Notifications switch logic here
                 },
               ),
             ],

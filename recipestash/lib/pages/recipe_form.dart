@@ -2,21 +2,40 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:recipestash/classes/preferences.dart';
 import 'package:recipestash/classes/recipe.dart';
 import 'package:recipestash/classes/recipe_model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:recipestash/classes/preferences_model.dart';
+import 'package:recipestash/main.dart';
+import 'package:recipestash/pages/settings.dart';
+import 'package:recipestash/pages/home.dart';
 
 class RecipeForm extends StatefulWidget {
   final RecipeModel model;
   final bool isEdit;
   final Recipe? recipe;
 
-  const RecipeForm({Key? key, required this.model, required this.isEdit, this.recipe}) : super(key: key);
+  const RecipeForm(
+      {Key? key, required this.model, required this.isEdit, this.recipe})
+      : super(key: key);
 
   @override
   State<RecipeForm> createState() => _RecipeFormState();
 }
+
+void main() async {
+  await initializePreferences();
+}
+
+Future<void> initializePreferences() async {
+  Preferences preferences = await PreferencesModel().get();
+}
+
+
+
+
 
 class _RecipeFormState extends State<RecipeForm>
 {
@@ -198,11 +217,12 @@ class _RecipeFormState extends State<RecipeForm>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.isEdit ? 'Edit Recipe' : 'Add Recipe')),
+      appBar: AppBar(title: Text(widget.isEdit ? 'Edit Recipe' : 'Add Recipe'), backgroundColor: Color.fromARGB( 255,preferences.r!, preferences.g!, preferences.b!)), 
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(10),
           child: Column(
+
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
             const Text('Title', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
@@ -290,9 +310,11 @@ class _RecipeFormState extends State<RecipeForm>
           )
         )
       ),
+
       floatingActionButton: FloatingActionButton(
           onPressed: () {save(context);},
           child: widget.isEdit ? const Icon(Icons.save) : const Icon(Icons.add),
+          backgroundColor: Color.fromARGB( 255,preferences.r!, preferences.g!, preferences.b!),
         ),
     );
   }

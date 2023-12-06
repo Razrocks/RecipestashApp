@@ -3,8 +3,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:recipestash/classes/authentication.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:recipestash/classes/preferences_model.dart';
 import 'package:recipestash/classes/recipe.dart';
 import 'package:recipestash/classes/recipe_model.dart';
+import 'package:recipestash/main.dart';
 import 'package:recipestash/pages/account.dart';
 import 'package:recipestash/pages/recipe_overview.dart';
 import 'package:recipestash/pages/recipe_form.dart';
@@ -24,6 +26,7 @@ class _HomeState extends State<Home> {
   final RecipeModel _model = RecipeModel();
   List<Recipe> recipes = [];
   String selectedCategory = "Breakfast"; // Default category
+  Color selectedThemeColor = Color.fromARGB(255, preferences.r!, preferences.g!, preferences.b!); // Default theme color
 
   @override
   void initState() {
@@ -32,13 +35,13 @@ class _HomeState extends State<Home> {
   }
 
   Widget searchField() {
-    return const Padding(
+    return Padding(
       padding: EdgeInsets.all(10.0),
       child: Row(
         children: [
           Expanded(
             child: TextField(
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(15.0)),
                 ),
@@ -52,7 +55,7 @@ class _HomeState extends State<Home> {
                 );
               },
             ),
-          ),
+          )
         ],
       ),
     );
@@ -62,11 +65,9 @@ class _HomeState extends State<Home> {
     return Container(
       width: w,
       height: h,
-      decoration:
-      BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        image: DecorationImage(image: NetworkImage(imgUrl), fit: BoxFit.cover)
-      ),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          image: DecorationImage(image: NetworkImage(imgUrl), fit: BoxFit.cover)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -74,9 +75,19 @@ class _HomeState extends State<Home> {
           Stack(
             children: [
               // Stroked text as border.
-              Text(text, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30, foreground: Paint()..style = PaintingStyle.stroke..strokeWidth = 3)),
+              Text(text,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30,
+                      foreground: Paint()
+                        ..style = PaintingStyle.stroke
+                        ..strokeWidth = 3)),
               // Solid text as fill.
-              Text(text, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 30)),
+              Text(text,
+                  style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30)),
             ],
           ),
         ],
@@ -107,7 +118,8 @@ class _HomeState extends State<Home> {
                       ),
                     );
                   },
-                  child: card(recipes[index].title, 350, 130, recipes[index].imageUrl),
+                  child: card(recipes[index].title, 350, 130,
+                      recipes[index].imageUrl),
                 ),
               );
             },
@@ -146,13 +158,19 @@ class _HomeState extends State<Home> {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const Settings()),
-    );
+    ).then((value) {
+      // Update the theme color after returning from Settings screen
+      setState(() {
+        selectedThemeColor =
+            Color.fromARGB(255, preferences.r!, preferences.g!, preferences.b!);
+      });
+    });
   }
 
   Widget navBar(BuildContext context) {
     return BottomAppBar(
       height: 40,
-      color: Colors.grey,
+      color: selectedThemeColor,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -184,7 +202,7 @@ class _HomeState extends State<Home> {
       home: Scaffold(
         body: Column(
           children: [
-            searchField(context),
+            searchField(),
             CategoryHeader(
               onCategorySelected: (category) {
                 setState(() {
@@ -200,10 +218,11 @@ class _HomeState extends State<Home> {
           onPressed: () {
             addRecipe();
           },
-          backgroundColor: Colors.grey,
           child: const Icon(Icons.add),
+          backgroundColor: selectedThemeColor, // Use selectedThemeColor here
         ),
         bottomNavigationBar: navBar(context),
+        
       ),
     );
   }
