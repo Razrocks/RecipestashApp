@@ -83,12 +83,13 @@ class _RecipeOverviewState extends State<RecipeOverview> {
         title: Text(
           'Recipe Overview',
           style: TextStyle(
-            color: preferences.darkMode == 1 ? Colors.white : Colors.black,
+            color: Colors.black,
           ),
         ),
+        iconTheme: const IconThemeData(color: Colors.black),
         actions: [
           IconButton(
-            icon: const Icon(Icons.more_vert_sharp),
+            icon: const Icon(Icons.more_vert_sharp,),
             onPressed: moreMenu
           )
         ],

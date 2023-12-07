@@ -218,7 +218,9 @@ class _RecipeFormState extends State<RecipeForm>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: preferences.darkMode == 1 ? Colors.black : Colors.white,
-      appBar: AppBar(title: Text(widget.isEdit ? 'Edit Recipe' : 'Add Recipe'), backgroundColor: Color.fromARGB( 255,preferences.r!, preferences.g!, preferences.b!)), 
+      appBar: AppBar(title: Text(widget.isEdit ? 'Edit Recipe' : 'Add Recipe', style: TextStyle(color: Colors.black)), backgroundColor: Color.fromARGB( 255,preferences.r!, preferences.g!, preferences.b!),
+      iconTheme: const IconThemeData(color: Colors.black),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(10),
