@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_share/flutter_share.dart';
@@ -45,7 +43,6 @@ class _SettingsState extends State<Settings> {
 
       PreferencesModel().update(preferences);
     });
-    print(preferences);
   }
 
   void showTermsOfService() {
@@ -154,7 +151,7 @@ class _SettingsState extends State<Settings> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
            Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: Text(
               'Themes',
               style: TextStyle(

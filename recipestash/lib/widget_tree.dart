@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:recipestash/classes/authentication.dart';
 import 'package:recipestash/pages/home.dart';
@@ -18,7 +17,7 @@ class _WidgetTreeState extends State<WidgetTree> {
     stream: Authentication().authStateChanges, 
     builder: (context, snapshot){
       if (snapshot.hasData) {
-        return Home();
+        return const Home();
       } else {
         return const LoginRegisterPage();
       }

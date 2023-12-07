@@ -18,12 +18,10 @@ import 'package:http/http.dart' as http;
 import 'package:permission_handler/permission_handler.dart';
 
 //global preferences variable
-Preferences preferences =
-    Preferences(r: 103, g: 202, b: 248, darkMode: 0, notifications: 1);
+Preferences preferences = Preferences(r: 103, g: 202, b: 248, darkMode: 0, notifications: 1);
 
 Future<String> getRandomTip() async {
-  Uri url = Uri.parse(
-      "https://my-json-server.typicode.com/MdTanjeemHaider/randomCookingTips/db");
+  Uri url = Uri.parse("https://my-json-server.typicode.com/MdTanjeemHaider/randomCookingTips/db");
   final response = await http.get(url);
 
   if (response.statusCode == 200) {
@@ -46,37 +44,43 @@ Future<void> dailyNotifications() async {
   }
 
   // Setting up notifications
-  AndroidInitializationSettings androidInitialize =
-      const AndroidInitializationSettings('mipmap/launcher_icon');
-  InitializationSettings initializationSettings =
-      InitializationSettings(android: androidInitialize);
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+  String tipContent = await getRandomTip();
+  AndroidInitializationSettings androidInitialize = const AndroidInitializationSettings('mipmap/launcher_icon');
+  InitializationSettings initializationSettings = InitializationSettings(android: androidInitialize);
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
-  AndroidNotificationDetails androidPlatformChannelSpecifics =
-      const AndroidNotificationDetails(
-    'daily_channel',
-    'Daily Cooking Tip',
-    importance: Importance.max,
-    priority: Priority.high,
+  AndroidNotificationDetails androidPlatformChannelSpecifics = 
+    AndroidNotificationDetails(
+      'daily_channel',
+      'Daily Cooking Tip',
+      importance: Importance.max,
+      priority: Priority.high,
+      styleInformation: BigTextStyleInformation(tipContent)
   );
-  NotificationDetails notificationDetails =
-      NotificationDetails(android: androidPlatformChannelSpecifics);
+  NotificationDetails notificationDetails = NotificationDetails(android: androidPlatformChannelSpecifics);
+
+  // Showing notifications
   await flutterLocalNotificationsPlugin.periodicallyShow(
-    // keep this as show instead of periodic for testing purposes, change in final version
     0,
     'Daily Cooking Tip',
-    await getRandomTip(),
+    tipContent,
     RepeatInterval.daily,
     notificationDetails,
     androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle
   );
+
+  //(Use this to test if notifications are working)
+  // await flutterLocalNotificationsPlugin.show(
+  //   0,
+  //   'Daily Cooking Tip',
+  //   tipContent,
+  //   notificationDetails,
+  // );
 }
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode
-      .immersive); // goes into fullscreen mode for the app and removes status bar + nav buttons
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive); // goes into fullscreen mode for the app and removes status bar + nav buttons
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   // If preferences already exist get them, otherwise create them using the default values
@@ -117,7 +121,7 @@ class MainApp extends StatelessWidget {
         } else {
           return const CircularProgressIndicator();
         }
-      },
+      }
     );
   }
 }

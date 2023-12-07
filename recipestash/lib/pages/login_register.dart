@@ -50,7 +50,7 @@ class _LoginRegisterPageState extends State<LoginRegisterPage> {
       body: SingleChildScrollView(
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.only(top: 200.0, left: 20.0, right: 20.0, bottom: 20.0),
+            padding: const EdgeInsets.only(top: 150.0, left: 20.0, right: 20.0, bottom: 20.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

@@ -1,16 +1,11 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:recipestash/classes/preferences.dart';
 import 'package:recipestash/classes/recipe.dart';
 import 'package:recipestash/classes/recipe_model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:recipestash/classes/preferences_model.dart';
 import 'package:recipestash/main.dart';
-import 'package:recipestash/pages/settings.dart';
-import 'package:recipestash/pages/home.dart';
 
 class RecipeForm extends StatefulWidget {
   final RecipeModel model;
@@ -24,18 +19,6 @@ class RecipeForm extends StatefulWidget {
   @override
   State<RecipeForm> createState() => _RecipeFormState();
 }
-
-void main() async {
-  await initializePreferences();
-}
-
-Future<void> initializePreferences() async {
-  Preferences preferences = await PreferencesModel().get();
-}
-
-
-
-
 
 class _RecipeFormState extends State<RecipeForm>
 {
@@ -218,14 +201,13 @@ class _RecipeFormState extends State<RecipeForm>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: preferences.darkMode == 1 ? Colors.black : Colors.white,
-      appBar: AppBar(title: Text(widget.isEdit ? 'Edit Recipe' : 'Add Recipe', style: TextStyle(color: Colors.black)), backgroundColor: Color.fromARGB( 255,preferences.r!, preferences.g!, preferences.b!),
+      appBar: AppBar(title: Text(widget.isEdit ? 'Edit Recipe' : 'Add Recipe', style: const TextStyle(color: Colors.black)), backgroundColor: Color.fromARGB( 255,preferences.r!, preferences.g!, preferences.b!),
       iconTheme: const IconThemeData(color: Colors.black),
       ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(10),
           child: Column(
-
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
             Text('Title', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: preferences.darkMode == 1 ? Colors.white : Colors.black)),
@@ -257,7 +239,7 @@ class _RecipeFormState extends State<RecipeForm>
             _category = value!;
               });
             },
-            style: TextStyle(color: Colors.white), // Set the color of the selected value
+            style: const TextStyle(color: Colors.white), // Set the color of the selected value
             dropdownColor: preferences.darkMode == 1 ? Colors.black : Colors.white, // Set the dropdown background color
             decoration: InputDecoration(
               enabledBorder: UnderlineInputBorder(
@@ -537,9 +519,6 @@ class _RecipeFormState extends State<RecipeForm>
                   borderSide: BorderSide(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set focused underline color to white
                   ),
               ),  
-            
-            
-            
              ),
             const Divider(),
             ],
@@ -549,8 +528,8 @@ class _RecipeFormState extends State<RecipeForm>
 
       floatingActionButton: FloatingActionButton(
           onPressed: () {save(context);},
-          child: widget.isEdit ? const Icon(Icons.save) : const Icon(Icons.add),
           backgroundColor: Color.fromARGB( 255,preferences.r!, preferences.g!, preferences.b!),
+          child: widget.isEdit ? const Icon(Icons.save) : const Icon(Icons.add),
         ),
     );
   }

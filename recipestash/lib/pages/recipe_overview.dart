@@ -1,22 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:recipestash/classes/preferences.dart';
-import 'package:recipestash/classes/preferences_model.dart';
 import 'package:recipestash/classes/recipe.dart';
 import 'package:recipestash/classes/recipe_model.dart';
 import 'package:recipestash/pages/recipe_form.dart';
 import 'package:flutter_share/flutter_share.dart';
 import 'package:printing/printing.dart';
 import 'package:recipestash/main.dart';
-import 'package:recipestash/pages/settings.dart';
-import 'package:recipestash/pages/home.dart';
-
-void main() async {
-  await initializePreferences();
-}
-
-Future<void> initializePreferences() async {
-  Preferences preferences = await PreferencesModel().get();
-}
 
 class RecipeOverview extends StatefulWidget {
   final Recipe recipe;
@@ -80,7 +68,7 @@ class _RecipeOverviewState extends State<RecipeOverview> {
       backgroundColor: preferences.darkMode == 1 ? Colors.black : Colors.white,
       appBar: AppBar(
         backgroundColor:  Color.fromARGB( 255,preferences.r!, preferences.g!, preferences.b!),
-        title: Text(
+        title: const Text(
           'Recipe Overview',
           style: TextStyle(
             color: Colors.black,
@@ -112,16 +100,15 @@ class _RecipeOverviewState extends State<RecipeOverview> {
 
               // Ingredients Section
               _buildSectionTitle('Ingredients'),
-              Text('Ingredients: ${widget.recipe.ingredients}', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black),),
+              Text(widget.recipe.ingredients, style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black),),
 
               // Directions Section
               _buildSectionTitle('Directions'),
-              Text('Directions: ${widget.recipe.directions}', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black),),
+              Text(widget.recipe.directions, style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black),),
 
               // Miscellaneous Section
               _buildSectionTitle('Miscellaneous'),
               Text('Notes: ${widget.recipe.notes}', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black),),
-              Text('Image URL: ${widget.recipe.imageUrl}', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black),),
 
               // Nutrition Section
               _buildSectionTitle('Nutrition'),
