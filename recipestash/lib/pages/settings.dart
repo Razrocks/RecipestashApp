@@ -1,3 +1,5 @@
+// Make proper comments for each section of code
+// Importing necessary packages and files
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_share/flutter_share.dart';
@@ -6,22 +8,28 @@ import 'package:recipestash/main.dart';
 import 'package:recipestash/pages/about.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+// Defining the Settings class, which is a StatefulWidget
 class Settings extends StatefulWidget {
   const Settings({super.key});
-
+  // Creating the state for Settings
   @override
   State<Settings> createState() => _SettingsState();
 }
 
+// State class for Settings
 class _SettingsState extends State<Settings> {
-  Color selectedThemeColor = Color.fromARGB(255, preferences.r!, preferences.g!, preferences.b!); // Default theme color
+  // Default theme color
+  Color selectedThemeColor =
+      Color.fromARGB(255, preferences.r!, preferences.g!, preferences.b!);
 
+  // Helper method to build a themed button with a specified color
   Widget _buildThemeButton(Color color) {
     return SizedBox(
       width: 80,
       height: 50,
       child: ElevatedButton(
         onPressed: () {
+          // Change the theme color and update the selected color
           changeColor(color);
           setState(() {
             selectedThemeColor = color;
@@ -35,17 +43,21 @@ class _SettingsState extends State<Settings> {
     );
   }
 
+  // Method to change the app's theme color
   void changeColor(Color color) {
     setState(() {
       preferences.r = color.red;
       preferences.g = color.green;
       preferences.b = color.blue;
 
+      // Update preferences
       PreferencesModel().update(preferences);
     });
   }
 
+  // Method to show the Terms of Service dialog
   void showTermsOfService() {
+    // Define the content of the Terms of Service
     const String termsOfService = '''
       Terms of Service
 
@@ -104,33 +116,52 @@ class _SettingsState extends State<Settings> {
       If you have any questions or concerns about these Terms, please contact us at [your contact email].
     ''';
 
+    // Show the dialog with the Terms of Service content
     showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text('Terms of Service', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black, fontSize: 18, fontWeight: FontWeight.bold)),
-          backgroundColor: preferences.darkMode == 1 ? Colors.black : Colors.white,
-          content:  SingleChildScrollView(
-            child: Text(termsOfService, style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black, fontSize: 18, fontWeight: FontWeight.bold))),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              }, 
-              child: Text('Close', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black, fontSize: 18, fontWeight: FontWeight.bold))
-            )
-          ],
-        );
-      }
-    );
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Terms of Service',
+                style: TextStyle(
+                    color:
+                        preferences.darkMode == 1 ? Colors.white : Colors.black,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold)),
+            backgroundColor:
+                preferences.darkMode == 1 ? Colors.black : Colors.white,
+            content: SingleChildScrollView(
+                child: Text(termsOfService,
+                    style: TextStyle(
+                        color: preferences.darkMode == 1
+                            ? Colors.white
+                            : Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold))),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text('Close',
+                      style: TextStyle(
+                          color: preferences.darkMode == 1
+                              ? Colors.white
+                              : Colors.black,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold)))
+            ],
+          );
+        });
   }
 
+  // Build method for the Settings page
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: preferences.darkMode == 1 ? Colors.black : Colors.white,
       appBar: AppBar(
-        backgroundColor: Color.fromARGB( 255,preferences.r!, preferences.g!, preferences.b!),
+        backgroundColor:
+            Color.fromARGB(255, preferences.r!, preferences.g!, preferences.b!),
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back,
@@ -150,7 +181,7 @@ class _SettingsState extends State<Settings> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-           Padding(
+          Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(
               'Themes',
@@ -161,6 +192,7 @@ class _SettingsState extends State<Settings> {
               ),
             ),
           ),
+          // Build themed buttons for different colors
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -171,6 +203,7 @@ class _SettingsState extends State<Settings> {
             ],
           ),
           const SizedBox(height: 16),
+          // Additional options for color customization
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -180,19 +213,17 @@ class _SettingsState extends State<Settings> {
                 width: 80,
                 height: 50,
                 decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                      colors: [
-                        Colors.red,
-                        Colors.yellow,
-                        Colors.green,
-                        Colors.blue,
-                        Colors.pink
-                      ],
-                      begin: Alignment.bottomLeft,
-                      end: Alignment.topRight),
+                  gradient: LinearGradient(colors: [
+                    Colors.red,
+                    Colors.yellow,
+                    Colors.green,
+                    Colors.blue,
+                    Colors.pink
+                  ], begin: Alignment.bottomLeft, end: Alignment.topRight),
                 ),
                 child: ElevatedButton(
                   onPressed: () {
+                    // Show color picker dialog
                     showDialog(
                       context: context,
                       builder: (context) {
@@ -200,8 +231,8 @@ class _SettingsState extends State<Settings> {
                           title: const Text('Pick a color!'),
                           content: SingleChildScrollView(
                             child: ColorPicker(
-                                pickerColor: Color.fromARGB(
-                                    255, preferences.r!, preferences.g!, preferences.b!),
+                                pickerColor: Color.fromARGB(255, preferences.r!,
+                                    preferences.g!, preferences.b!),
                                 onColorChanged: changeColor),
                           ),
                         );
@@ -215,72 +246,121 @@ class _SettingsState extends State<Settings> {
               )
             ],
           ),
-          // const SizedBox(height: 16), // Add some spacing before "Dark Mode" text
+          // Dark Mode and other settings
           ListTile(
-            title: Text('Dark Mode', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black, fontSize: 18, fontWeight: FontWeight.bold)),
+            title: Text('Dark Mode',
+                style: TextStyle(
+                    color:
+                        preferences.darkMode == 1 ? Colors.white : Colors.black,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold)),
             trailing: Switch(
-              activeColor: Color.fromARGB(255, preferences.r!, preferences.g!, preferences.b!),
+              activeColor: Color.fromARGB(
+                  255, preferences.r!, preferences.g!, preferences.b!),
               value: preferences.darkMode == 1 ? true : false,
               onChanged: (value) {
                 setState(() {
                   preferences.darkMode = value ? 1 : 0;
                   PreferencesModel().update(preferences);
                 });
-                // Add your Dark Mode switch logic here
               },
             ),
           ),
           ListTile(
-            title: Text('Notifications', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black, fontSize: 18, fontWeight: FontWeight.bold)),
+            title: Text('Notifications',
+                style: TextStyle(
+                    color:
+                        preferences.darkMode == 1 ? Colors.white : Colors.black,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold)),
             trailing: Switch(
-              activeColor: Color.fromARGB(255, preferences.r!, preferences.g!, preferences.b!),
+              activeColor: Color.fromARGB(
+                  255, preferences.r!, preferences.g!, preferences.b!),
               value: preferences.notifications == 1 ? true : false,
               onChanged: (value) {
                 setState(() {
                   preferences.notifications = value ? 1 : 0;
                 });
-                // Add your Notifications switch logic here
               },
             ),
           ),
           ListTile(
-            title: Text('Feedback', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black)),
+            title: Text('Feedback',
+                style: TextStyle(
+                    color: preferences.darkMode == 1
+                        ? Colors.white
+                        : Colors.black)),
             onTap: () {
-              launchUrl(Uri.parse('https://docs.google.com/forms/d/e/1FAIpQLSda-c0Um9eXByoxABmyTduXTPzIcB6qGMheAoEjGTLVVREj1g/viewform?usp=sf_link'));
+              launchUrl(Uri.parse(
+                  'https://docs.google.com/forms/d/e/1FAIpQLSda-c0Um9eXByoxABmyTduXTPzIcB6qGMheAoEjGTLVVREj1g/viewform?usp=sf_link'));
             },
-            trailing: Icon(Icons.feedback_outlined, color: preferences.darkMode == 1 ? Colors.white : Colors.black,),
+            trailing: Icon(
+              Icons.feedback_outlined,
+              color: preferences.darkMode == 1 ? Colors.white : Colors.black,
+            ),
           ),
           ListTile(
-            title: Text('Share App', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black)),
+            title: Text('Share App',
+                style: TextStyle(
+                    color: preferences.darkMode == 1
+                        ? Colors.white
+                        : Colors.black)),
             onTap: () {
               FlutterShare.share(
-                title: 'Try out this App!', 
-                text: 'Hey try out this app! It\'s called Recipe Stash and it\'s awesome!', 
-                linkUrl: 'https://github.com/CSCI4100U/mobile-group-project-2023-r-a-t/releases/latest');
+                  title: 'Try out this App!',
+                  text:
+                      'Hey try out this app! It\'s called Recipe Stash and it\'s awesome!',
+                  linkUrl:
+                      'https://github.com/CSCI4100U/mobile-group-project-2023-r-a-t/releases/latest');
             },
-            trailing: Icon(Icons.share_outlined, color: preferences.darkMode == 1 ? Colors.white : Colors.black,),
+            trailing: Icon(
+              Icons.share_outlined,
+              color: preferences.darkMode == 1 ? Colors.white : Colors.black,
+            ),
           ),
           ListTile(
-            title: Text('About', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black)),
+            title: Text('About',
+                style: TextStyle(
+                    color: preferences.darkMode == 1
+                        ? Colors.white
+                        : Colors.black)),
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const About()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const About()));
             },
-            trailing: Icon(Icons.info_outline, color: preferences.darkMode == 1 ? Colors.white : Colors.black,),
+            trailing: Icon(
+              Icons.info_outline,
+              color: preferences.darkMode == 1 ? Colors.white : Colors.black,
+            ),
           ),
           ListTile(
-            title: Text('Help', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black)),
+            title: Text('Help',
+                style: TextStyle(
+                    color: preferences.darkMode == 1
+                        ? Colors.white
+                        : Colors.black)),
             onTap: () {
-              launchUrl(Uri.parse('https://github.com/CSCI4100U/mobile-group-project-2023-r-a-t/discussions'));
+              launchUrl(Uri.parse(
+                  'https://github.com/CSCI4100U/mobile-group-project-2023-r-a-t/discussions'));
             },
-            trailing: Icon(Icons.help_outline, color: preferences.darkMode == 1 ? Colors.white : Colors.black,),
+            trailing: Icon(
+              Icons.help_outline,
+              color: preferences.darkMode == 1 ? Colors.white : Colors.black,
+            ),
           ),
           ListTile(
-            title: Text('Terms of Service', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black)),
+            title: Text('Terms of Service',
+                style: TextStyle(
+                    color: preferences.darkMode == 1
+                        ? Colors.white
+                        : Colors.black)),
             onTap: () {
               showTermsOfService();
             },
-            trailing: Icon(Icons.description_outlined, color: preferences.darkMode == 1 ? Colors.white : Colors.black,),
-
+            trailing: Icon(
+              Icons.description_outlined,
+              color: preferences.darkMode == 1 ? Colors.white : Colors.black,
+            ),
           ),
         ],
       ),

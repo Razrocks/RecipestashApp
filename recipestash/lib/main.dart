@@ -1,8 +1,10 @@
+// Importing necessary packages and files
 // Sources/information used:
-// dart.dev
-// https://firebase.google.com/docs
-// https://www.youtube.com/watch?v=VCrXSFqdsoA
-// https://www.youtube.com/watch?v=rWamixHIKmQ
+// - Flutter Documentation: https://docs.flutter.dev/
+// - Dart Documentation: https://dart.dev/
+// - Firebase Documentation: https://firebase.google.com/docs
+// - YouTube Tutorial on Google Login with Firebase Authentication: https://www.youtube.com/watch?v=VCrXSFqdsoA
+// - YouTube Tutorial on Flutter Firebase Auth: https://www.youtube.com/watch?v=rWamixHIKmQ
 
 import 'dart:convert';
 import 'dart:math';
@@ -17,11 +19,14 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:permission_handler/permission_handler.dart';
 
-//global preferences variable
-Preferences preferences = Preferences(r: 103, g: 202, b: 248, darkMode: 0, notifications: 1);
+// Global preferences variable
+Preferences preferences =
+    Preferences(r: 103, g: 202, b: 248, darkMode: 0, notifications: 1);
 
+// Future function to fetch a random cooking tip from a JSON API
 Future<String> getRandomTip() async {
-  Uri url = Uri.parse("https://my-json-server.typicode.com/MdTanjeemHaider/randomCookingTips/db");
+  Uri url = Uri.parse(
+      "https://my-json-server.typicode.com/MdTanjeemHaider/randomCookingTips/db");
   final response = await http.get(url);
 
   if (response.statusCode == 200) {
@@ -32,8 +37,9 @@ Future<String> getRandomTip() async {
   }
 }
 
+// Future function to show daily notifications
 Future<void> dailyNotifications() async {
-  // Requsting notification permissions
+  // Requesting notification permissions
   if (await Permission.notification.status.isDenied) {
     PermissionStatus permissionStatus = await Permission.notification.request();
     if (permissionStatus.isDenied) {
@@ -45,31 +51,27 @@ Future<void> dailyNotifications() async {
 
   // Setting up notifications
   String tipContent = await getRandomTip();
-  AndroidInitializationSettings androidInitialize = const AndroidInitializationSettings('mipmap/launcher_icon');
-  InitializationSettings initializationSettings = InitializationSettings(android: androidInitialize);
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  AndroidInitializationSettings androidInitialize =
+      const AndroidInitializationSettings('mipmap/launcher_icon');
+  InitializationSettings initializationSettings =
+      InitializationSettings(android: androidInitialize);
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
-  AndroidNotificationDetails androidPlatformChannelSpecifics = 
-    AndroidNotificationDetails(
-      'daily_channel',
-      'Daily Cooking Tip',
-      importance: Importance.max,
-      priority: Priority.high,
-      styleInformation: BigTextStyleInformation(tipContent)
-  );
-  NotificationDetails notificationDetails = NotificationDetails(android: androidPlatformChannelSpecifics);
+  AndroidNotificationDetails androidPlatformChannelSpecifics =
+      AndroidNotificationDetails('daily_channel', 'Daily Cooking Tip',
+          importance: Importance.max,
+          priority: Priority.high,
+          styleInformation: BigTextStyleInformation(tipContent));
+  NotificationDetails notificationDetails =
+      NotificationDetails(android: androidPlatformChannelSpecifics);
 
   // Showing notifications
-  await flutterLocalNotificationsPlugin.periodicallyShow(
-    0,
-    'Daily Cooking Tip',
-    tipContent,
-    RepeatInterval.daily,
-    notificationDetails,
-    androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle
-  );
+  await flutterLocalNotificationsPlugin.periodicallyShow(0, 'Daily Cooking Tip',
+      tipContent, RepeatInterval.daily, notificationDetails,
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle);
 
-  //(Use this to test if notifications are working)
+  // (Use this to test if notifications are working)
   // await flutterLocalNotificationsPlugin.show(
   //   0,
   //   'Daily Cooking Tip',
@@ -78,9 +80,11 @@ Future<void> dailyNotifications() async {
   // );
 }
 
+// Main function to initialize the app and set preferences
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive); // goes into fullscreen mode for the app and removes status bar + nav buttons
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode
+      .immersive); // goes into fullscreen mode for the app and removes status bar + nav buttons
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   // If preferences already exist get them, otherwise create them using the default values
@@ -99,29 +103,32 @@ Future<void> main() async {
   runApp(const MainApp());
 }
 
+// StatelessWidget for the main app
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: Firebase.initializeApp(
-          options: DefaultFirebaseOptions.currentPlatform),
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            home: Scaffold(
-              body: Center(child: Text("Error: ${snapshot.error}")),
-            ),
-          );
-        }
-        if (snapshot.connectionState == ConnectionState.done) {
-          return const MaterialApp(home: WidgetTree());
-        } else {
-          return const CircularProgressIndicator();
-        }
-      }
-    );
+        future: Firebase.initializeApp(
+            options: DefaultFirebaseOptions.currentPlatform),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            // Display an error message if Firebase initialization fails
+            return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              home: Scaffold(
+                body: Center(child: Text("Error: ${snapshot.error}")),
+              ),
+            );
+          }
+          if (snapshot.connectionState == ConnectionState.done) {
+            // If Firebase initialization is successful, return the main app widget tree
+            return const MaterialApp(home: WidgetTree());
+          } else {
+            // Display a loading indicator while Firebase is initializing
+            return const CircularProgressIndicator();
+          }
+        });
   }
 }
