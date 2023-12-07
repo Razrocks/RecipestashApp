@@ -81,7 +81,7 @@ class _RecipeFormState extends State<RecipeForm> {
   }
 
   // Method to validate and save the recipe
-  void save(BuildContext context) {
+  void save() {
     // Check if any required field is empty and show a Snackbar if so
     if (_titleController.text == '' ||
         _category == '' ||
@@ -956,7 +956,7 @@ class _RecipeFormState extends State<RecipeForm> {
               ))),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          save(context);
+          save();
         },
         backgroundColor:
             Color.fromARGB(255, preferences.r!, preferences.g!, preferences.b!),
