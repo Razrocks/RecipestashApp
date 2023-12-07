@@ -77,6 +77,7 @@ class _HomeState extends State<Home> {
         children: [
           Expanded(
             child: TextField(
+              style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set text color to white
               controller: searchController,
               onTap: () {
                 // Set the selected category to "All" when the search bar is tapped
