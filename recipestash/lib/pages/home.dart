@@ -47,6 +47,44 @@ class _HomeState extends State<Home> {
         children: [
           Expanded(
             child: TextField(
+              decoration: InputDecoration(
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                  borderSide: BorderSide(
+                      color: Colors.white), // Outline color when focused
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                  borderSide: BorderSide(
+                      color: Colors.white), // Outline color when unfocused
+                ),
+                hintText: 'Search',
+                suffixIcon: Icon(
+                  Icons.search,
+                  color:
+                      preferences.darkMode == 1 ? Colors.white : Colors.black,
+                ),
+              ),
+              onTap: () {
+                showSearch(
+                  context: context,
+                  delegate: RecipeSearch(model: _model),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget searchField() {
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Row(
+        children: [
+          Expanded(
+            child: TextField(
               controller: searchController,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(

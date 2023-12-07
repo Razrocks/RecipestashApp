@@ -217,6 +217,7 @@ class _RecipeFormState extends State<RecipeForm>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: preferences.darkMode == 1 ? Colors.black : Colors.white,
       appBar: AppBar(title: Text(widget.isEdit ? 'Edit Recipe' : 'Add Recipe'), backgroundColor: Color.fromARGB( 255,preferences.r!, preferences.g!, preferences.b!)), 
       body: SingleChildScrollView(
         child: Padding(
@@ -225,86 +226,319 @@ class _RecipeFormState extends State<RecipeForm>
 
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-            const Text('Title', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            TextField(controller: _titleController, maxLength: 22),
-            const Divider(),
-            const Text('Category', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            DropdownButtonFormField(
-              // value: _category,
-              value: _category,
-              items: const [
-                DropdownMenuItem(value: 'Breakfast', child: Text('Breakfast')),
-                DropdownMenuItem(value: 'Lunch', child: Text('Lunch')),
-                DropdownMenuItem(value: 'Dinner', child: Text('Dinner')),
-                DropdownMenuItem(value: 'Dessert', child: Text('Dessert')),
-                DropdownMenuItem(value: 'Snack', child: Text('Snack')),
-                DropdownMenuItem(value: 'Drink', child: Text('Drink')),
-              ], 
-              onChanged: (value) {
-                _category = value!;
-              }),
-            const Divider(),
-            const Text('Description', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            TextField(controller: _descriptionController),
-            const Divider(),
-            const Text('Prep Time (minutes)', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            TextField(controller: _prepTimeController, inputFormatters: [FilteringTextInputFormatter.digitsOnly], keyboardType: TextInputType.number),
-            const Divider(),
-            const Text('Cook Time (minutes)', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            TextField(controller: _cookTimeController, inputFormatters: [FilteringTextInputFormatter.digitsOnly], keyboardType: TextInputType.number),
-            const Divider(),
-            const Text('Servings', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            TextField(controller: _servingsController, inputFormatters: [FilteringTextInputFormatter.digitsOnly], keyboardType: TextInputType.number),
-            const Divider(),
-            const Text('Ingredients', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            TextField(controller: _ingredientsController, maxLines: 5),
-            const Divider(),
-            const Text('Directions', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            TextField(controller: _directionsController, maxLines: 5),
-            const Divider(),
-            const Text('Notes', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            TextField(controller: _notesController, maxLines: 5),
-            const Divider(),
-            const Text('Image URL', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            _imageUrl != null ? Image.network(_imageUrl!) : const Text('No image selected'),
-            IconButton(
-              onPressed: getImg,
-              icon: const Icon(Icons.add_photo_alternate_outlined
+            Text('Title', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: preferences.darkMode == 1 ? Colors.white : Colors.black)),
+            TextField(controller: _titleController, maxLength: 22,
+            style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set text color to white
+                  decoration: InputDecoration(
+                  enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set underline color to white
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set focused underline color to white
+                  ),
               ),
             ),
             const Divider(),
-            const Text('Serving Size (g)', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            TextField(controller: _servingSizeController, inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r','))], keyboardType: TextInputType.number),
+            Text('Category', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: preferences.darkMode == 1 ? Colors.white : Colors.black)),
+            DropdownButtonFormField(
+            value: _category,
+            items:  [
+              DropdownMenuItem(value: 'Breakfast', child: Text('Breakfast', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black))),
+              DropdownMenuItem(value: 'Lunch', child: Text('Lunch', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black))),
+              DropdownMenuItem(value: 'Dinner', child: Text('Dinner', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black))),
+              DropdownMenuItem(value: 'Dessert', child: Text('Dessert', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black))),
+              DropdownMenuItem(value: 'Snack', child: Text('Snack', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black))),
+              DropdownMenuItem(value: 'Drink', child: Text('Drink', style: TextStyle(color:preferences.darkMode == 1 ? Colors.white : Colors.black))),
+            ],
+            onChanged: (value) {
+              setState(() {
+            _category = value!;
+              });
+            },
+            style: TextStyle(color: Colors.white), // Set the color of the selected value
+            dropdownColor: preferences.darkMode == 1 ? Colors.black : Colors.white, // Set the dropdown background color
+            decoration: InputDecoration(
+              enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: preferences.darkMode == 1 ? Colors.white : Colors.black),
+               ),
+              focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: preferences.darkMode == 1 ? Colors.white : Colors.black),
+                ),
+              ),
+            ),
+
             const Divider(),
-            const Text('Calories (kcal)', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            TextField(controller: _caloriesController, inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r','))], keyboardType: TextInputType.number),
+            Text('Description', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: preferences.darkMode == 1 ? Colors.white : Colors.black)),
+            TextField(
+                 controller: _descriptionController,
+                  style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set text color to white
+                  decoration: InputDecoration(
+                  enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set underline color to white
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set focused underline color to white
+                  ),
+              ),
+            ),
+
             const Divider(),
-            const Text('Total Fat (g)', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            TextField(controller: _totalFatController, inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r','))],  keyboardType: TextInputType.number),
+            Text('Prep Time (minutes)', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: preferences.darkMode == 1 ? Colors.white : Colors.black)),
+            TextField(controller: _prepTimeController, inputFormatters: [FilteringTextInputFormatter.digitsOnly], keyboardType: TextInputType.number,
+            style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set text color to white
+                  decoration: InputDecoration(
+                  enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set underline color to white
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set focused underline color to white
+                  ),
+              ), 
+            ),
+          
             const Divider(),
-            const Text('Saturated Fat (g)', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            TextField(controller: _saturatedFatController, inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r','))], keyboardType: TextInputType.number),
+            Text('Cook Time (minutes)', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: preferences.darkMode == 1 ? Colors.white : Colors.black)),
+            TextField(controller: _cookTimeController, inputFormatters: [FilteringTextInputFormatter.digitsOnly], keyboardType: TextInputType.number,
+            style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set text color to white
+                  decoration: InputDecoration(
+                  enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set underline color to white
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set focused underline color to white
+                  ),
+              ),
+            ),
             const Divider(),
-            const Text('Trans Fat (g)', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            TextField(controller: _transFatController, inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r','))], keyboardType: TextInputType.number),
+            Text('Servings', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: preferences.darkMode == 1 ? Colors.white : Colors.black)),
+            TextField(controller: _servingsController, inputFormatters: [FilteringTextInputFormatter.digitsOnly], keyboardType: TextInputType.number,
+            style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set text color to white
+                  decoration: InputDecoration(
+                  enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set underline color to white
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set focused underline color to white
+                  ),
+              ),
+            ),
             const Divider(),
-            const Text('Cholesterol (mg)', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            TextField(controller: _cholesterolController, inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r','))], keyboardType: TextInputType.number),
+            Text('Ingredients', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: preferences.darkMode == 1 ? Colors.white : Colors.black)),
+            TextField(controller: _ingredientsController, maxLines: 5,
+            style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set text color to white
+                  decoration: InputDecoration(
+                  enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set underline color to white
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set focused underline color to white
+                  ),
+              ),
+              ),
             const Divider(),
-            const Text('Sodium (mg)', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            TextField(controller: _sodiumController, inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r','))], keyboardType: TextInputType.number),
+            Text('Directions', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: preferences.darkMode == 1 ? Colors.white : Colors.black)),
+            TextField(controller: _directionsController, maxLines: 5,
+            style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set text color to white
+                  decoration: InputDecoration(
+                  enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set underline color to white
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set focused underline color to white
+                  ),
+              ),
+            ),
             const Divider(),
-            const Text('Total Carbohydrates (g)', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            TextField(controller: _totalCarbohydratesController, inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r','))], keyboardType: TextInputType.number),
+            Text('Notes', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: preferences.darkMode == 1 ? Colors.white : Colors.black)),
+            TextField(controller: _notesController, maxLines: 5,
+            style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set text color to white
+                  decoration: InputDecoration(
+                  enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set underline color to white
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set focused underline color to white
+                  ),
+              ),
+            ),
             const Divider(),
-            const Text('Dietary Fiber (g)', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            TextField(controller: _dietaryFiberController, inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r','))], keyboardType: TextInputType.number),
+            Text('Image URL', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: preferences.darkMode == 1 ? Colors.white : Colors.black)),
+            _imageUrl != null ? Image.network(_imageUrl!) : const Text('No image selected'),
+            IconButton(
+              onPressed: getImg,
+              icon: Icon(Icons.add_photo_alternate_outlined, color: preferences.darkMode == 1 ? Colors.white : Colors.black,
+              ),
+            ),
             const Divider(),
-            const Text('Sugar (g)', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            TextField(controller: _sugarController, inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r','))], keyboardType: TextInputType.number),
+            Text('Serving Size (g)', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: preferences.darkMode == 1 ? Colors.white : Colors.black)),
+            TextField(controller: _servingSizeController, inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r','))], keyboardType: TextInputType.number,
+            style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set text color to white
+                  decoration: InputDecoration(
+                  enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set underline color to white
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set focused underline color to white
+                  ),
+              ),
+            ),
             const Divider(),
-            const Text('Protein (g)', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            TextField(controller: _proteinController, inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r','))], keyboardType: TextInputType.number),
+            Text('Calories (kcal)', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: preferences.darkMode == 1 ? Colors.white : Colors.black)),
+            TextField(controller: _caloriesController, inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r','))], keyboardType: TextInputType.number,
+            style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set text color to white
+                  decoration: InputDecoration(
+                  enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set underline color to white
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set focused underline color to white
+                  ),
+              ),
+            ),
+            const Divider(),
+            Text('Total Fat (g)', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: preferences.darkMode == 1 ? Colors.white : Colors.black)),
+            TextField(controller: _totalFatController, inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r','))],  keyboardType: TextInputType.number,
+            style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set text color to white
+                  decoration: InputDecoration(
+                  enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set underline color to white
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set focused underline color to white
+                  ),
+              ),  
+            
+            
+            
+             ),
+            const Divider(),
+            Text('Saturated Fat (g)', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: preferences.darkMode == 1 ? Colors.white : Colors.black)),
+            TextField(controller: _saturatedFatController, inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r','))], keyboardType: TextInputType.number,
+            style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set text color to white
+                  decoration: InputDecoration(
+                  enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set underline color to white
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set focused underline color to white
+                  ),
+              ),  
+            
+            
+            
+             ),
+            const Divider(),
+            Text('Trans Fat (g)', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: preferences.darkMode == 1 ? Colors.white : Colors.black)),
+            TextField(controller: _transFatController, inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r','))], keyboardType: TextInputType.number,
+            style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set text color to white
+                  decoration: InputDecoration(
+                  enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set underline color to white
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set focused underline color to white
+                  ),
+              ),  
+            
+            
+            
+             ),
+            const Divider(),
+            Text('Cholesterol (mg)', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: preferences.darkMode == 1 ? Colors.white : Colors.black)),
+            TextField(controller: _cholesterolController, inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r','))], keyboardType: TextInputType.number,
+            style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set text color to white
+                  decoration: InputDecoration(
+                  enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set underline color to white
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set focused underline color to white
+                  ),
+              ),  
+            
+            
+            
+             ),
+            const Divider(),
+            Text('Sodium (mg)', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: preferences.darkMode == 1 ? Colors.white : Colors.black)),
+            TextField(controller: _sodiumController, inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r','))], keyboardType: TextInputType.number,
+            style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set text color to white
+                  decoration: InputDecoration(
+                  enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set underline color to white
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set focused underline color to white
+                  ),
+              ),  
+            
+            
+            
+             ),
+            const Divider(),
+            Text('Total Carbohydrates (g)', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: preferences.darkMode == 1 ? Colors.white : Colors.black)),
+            TextField(controller: _totalCarbohydratesController, inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r','))], keyboardType: TextInputType.number,
+            style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set text color to white
+                  decoration: InputDecoration(
+                  enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set underline color to white
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set focused underline color to white
+                  ),
+              ),  
+            
+            
+            
+             ),
+            const Divider(),
+            Text('Dietary Fiber (g)', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: preferences.darkMode == 1 ? Colors.white : Colors.black)),
+            TextField(controller: _dietaryFiberController, inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r','))], keyboardType: TextInputType.number,
+            style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set text color to white
+                  decoration: InputDecoration(
+                  enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set underline color to white
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set focused underline color to white
+                  ),
+              ),  
+            
+            
+            
+             ),
+            const Divider(),
+            Text('Sugar (g)', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: preferences.darkMode == 1 ? Colors.white : Colors.black)),
+            TextField(controller: _sugarController, inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r','))], keyboardType: TextInputType.number,
+            style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set text color to white
+                  decoration: InputDecoration(
+                  enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set underline color to white
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set focused underline color to white
+                  ),
+              ),  
+            
+            
+            
+             ),
+            const Divider(),
+            Text('Protein (g)', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: preferences.darkMode == 1 ? Colors.white : Colors.black)),
+            TextField(controller: _proteinController, inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r','))], keyboardType: TextInputType.number,
+            style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set text color to white
+                  decoration: InputDecoration(
+                  enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set underline color to white
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: preferences.darkMode == 1 ? Colors.white : Colors.black), // Set focused underline color to white
+                  ),
+              ),  
+            
+            
+            
+             ),
             const Divider(),
             ],
           )

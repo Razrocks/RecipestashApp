@@ -77,12 +77,13 @@ class _RecipeOverviewState extends State<RecipeOverview> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: preferences.darkMode == 1 ? Colors.black : Colors.white,
       appBar: AppBar(
         backgroundColor:  Color.fromARGB( 255,preferences.r!, preferences.g!, preferences.b!),
-        title: const Text(
+        title: Text(
           'Recipe Overview',
           style: TextStyle(
-            color: Colors.black,
+            color: preferences.darkMode == 1 ? Colors.white : Colors.black,
           ),
         ),
         actions: [
@@ -103,37 +104,37 @@ class _RecipeOverviewState extends State<RecipeOverview> {
               _buildSectionTitle('Overview'),
               _buildRecipeDetail('Title', widget.recipe.title),
               _buildRecipeDetail('Category', widget.recipe.category),
-              Text('Description: ${widget.recipe.description}'),
-              Text('Prep Time: ${widget.recipe.prepTime}'),
-              Text('Cook Time: ${widget.recipe.cookTime}'),
-              Text('Servings: ${widget.recipe.servings}'),
+              Text('Description: ${widget.recipe.description}', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black),),
+              Text('Prep Time: ${widget.recipe.prepTime}', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black),),
+              Text('Cook Time: ${widget.recipe.cookTime}', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black),),
+              Text('Servings: ${widget.recipe.servings}', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black),),
 
               // Ingredients Section
               _buildSectionTitle('Ingredients'),
-              Text('Ingredients: ${widget.recipe.ingredients}'),
+              Text('Ingredients: ${widget.recipe.ingredients}', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black),),
 
               // Directions Section
               _buildSectionTitle('Directions'),
-              Text('Directions: ${widget.recipe.directions}'),
+              Text('Directions: ${widget.recipe.directions}', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black),),
 
               // Miscellaneous Section
               _buildSectionTitle('Miscellaneous'),
-              Text('Notes: ${widget.recipe.notes}'),
-              Text('Image URL: ${widget.recipe.imageUrl}'),
+              Text('Notes: ${widget.recipe.notes}', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black),),
+              Text('Image URL: ${widget.recipe.imageUrl}', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black),),
 
               // Nutrition Section
               _buildSectionTitle('Nutrition'),
-              Text('Serving Size: ${widget.recipe.servingSize}'),
-              Text('Calories: ${widget.recipe.calories}'),
-              Text('Total Fat: ${widget.recipe.totalFat}'),
-              Text('Saturated Fat: ${widget.recipe.saturatedFat}'),
-              Text('Saturated Fat: ${widget.recipe.transFat}'),
-              Text('Cholesterol: ${widget.recipe.cholesterol}'),
-              Text('Sodium: ${widget.recipe.sodium}'),
-              Text('Total Carbohydrates: ${widget.recipe.totalCarbohydrates}'),
-              Text('Dietary Fiber: ${widget.recipe.dietaryFiber}'),
-              Text('Sugar: ${widget.recipe.sugar}'),
-              Text('Protein: ${widget.recipe.protein}'),
+              Text('Serving Size: ${widget.recipe.servingSize}', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black),),
+              Text('Calories: ${widget.recipe.calories}', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black),),
+              Text('Total Fat: ${widget.recipe.totalFat}', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black),),
+              Text('Saturated Fat: ${widget.recipe.saturatedFat}', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black),),
+              Text('Saturated Fat: ${widget.recipe.transFat}', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black),),
+              Text('Cholesterol: ${widget.recipe.cholesterol}', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black),),
+              Text('Sodium: ${widget.recipe.sodium}', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black),),
+              Text('Total Carbohydrates: ${widget.recipe.totalCarbohydrates}', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black),),
+              Text('Dietary Fiber: ${widget.recipe.dietaryFiber}', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black),),
+              Text('Sugar: ${widget.recipe.sugar}', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black),),
+              Text('Protein: ${widget.recipe.protein}', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black),),
             ],
           ),
         ),
@@ -146,8 +147,8 @@ class _RecipeOverviewState extends State<RecipeOverview> {
       padding: const EdgeInsets.symmetric(vertical: 12.0),
       child: Text(
         title,
-        style: const TextStyle(
-          color: Colors.black,
+        style: TextStyle(
+          color:  preferences.darkMode == 1 ? Colors.white : Colors.black,
           fontSize: 24,
           fontWeight: FontWeight.bold,
         ),
@@ -163,16 +164,16 @@ class _RecipeOverviewState extends State<RecipeOverview> {
         children: [
           Text(
             label,
-            style: const TextStyle(
-              color: Colors.black,
+            style: TextStyle(
+              color: preferences.darkMode == 1 ? Colors.white : Colors.black,
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
           ),
           Text(
             value ?? '-',
-            style: const TextStyle(
-              color: Colors.black,
+            style: TextStyle(
+              color: preferences.darkMode == 1 ? Colors.white : Colors.black,
               fontSize: 18,
             ),
           ),
