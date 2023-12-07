@@ -3,18 +3,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Recipe {
   //overview tab
   String? id;
-  late String title; //mandatory
-  late String category; //mandatory
+  late String title;
+  late String category;
   late String description; 
   late int prepTime; //in minutes
   late int cookTime; //in minutes
   late int servings; //in number
    
   //ingredients tab
-  late String ingredients; //mandatory
+  late String ingredients;
  
   //directions tab
-  late String directions; //mandatory
+  late String directions; 
  
   //other tab
   late String notes;
@@ -59,8 +59,7 @@ class Recipe {
     required this.protein,
   });
 
-  Map<String, dynamic> toMap()
-  {
+  Map<String, dynamic> toMap() {
     return {
       'id' : id,
       'title' : title,
@@ -147,7 +146,7 @@ class Recipe {
     ''';
   }
 
-    String toHtmlString() {
+  String toHtmlString() {
     return '''
       <html>
       <head>

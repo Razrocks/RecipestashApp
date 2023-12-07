@@ -164,10 +164,7 @@ class RecipeModel {
   Stream<List<Recipe>> getRecipesByCategory(String category) {
     // Check if the category is null or empty, then return all recipes
     if (category.isEmpty) {
-      return db!.snapshots().map((snapshot) => snapshot.docs.map((doc) {
-            return Recipe.fromMap(doc.data() as Map<String, dynamic>,
-                reference: doc.reference);
-          }).toList());
+      return getAllRecipes();
     } else {
       return db!
           .where('category', isEqualTo: category)

@@ -3,9 +3,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 class Authentication {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
   User? get currentUser => _auth.currentUser;
-
   Stream<User?> get authStateChanges => _auth.authStateChanges();
 
   Future<void> signIn({required String email, required String password}) async {
@@ -18,11 +16,8 @@ class Authentication {
   }
 
   Future<void> signInGoogle() async {
-    
     GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
     GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
-
 
     AuthCredential credential = GoogleAuthProvider.credential(
       idToken: googleAuth?.idToken,

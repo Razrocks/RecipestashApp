@@ -21,7 +21,6 @@ class Preferences {
     };
   }
 
-  // testing purposes only - remove later
   @override
   String toString() {
     return 'Preferences{r: $r, g: $g, b: $b, darkMode: $darkMode, notifications: $notifications}';

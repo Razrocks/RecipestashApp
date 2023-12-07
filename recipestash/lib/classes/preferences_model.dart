@@ -5,7 +5,6 @@ import 'package:recipestash/classes/preferences.dart';
 class PreferencesModel {
   Future<int> exists() async {
     final Database db = await SqfliteUtils.init();
-
     List<Map<String, dynamic>> result = await db.query('preferences');
 
     if (result.isEmpty) {
