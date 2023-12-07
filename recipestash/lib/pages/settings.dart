@@ -1,4 +1,3 @@
-// Make proper comments for each section of code
 // Importing necessary packages and files
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
