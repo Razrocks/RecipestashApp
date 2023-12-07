@@ -1,39 +1,44 @@
+// recipe.dart
+
+// Import necessary packages
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+// Recipe class representing a recipe in the Recipe app
 class Recipe {
-  //overview tab
+  // Overview tab attributes
   String? id;
   late String title;
   late String category;
-  late String description; 
-  late int prepTime; //in minutes
-  late int cookTime; //in minutes
-  late int servings; //in number
-   
-  //ingredients tab
+  late String description;
+  late int prepTime; // in minutes
+  late int cookTime; // in minutes
+  late int servings; // in number
+
+  // Ingredients tab attribute
   late String ingredients;
- 
-  //directions tab
-  late String directions; 
- 
-  //other tab
+
+  // Directions tab attribute
+  late String directions;
+
+  // Other tab attributes
   late String notes;
-  late String imageUrl; //uploaded image url
- 
-  //nutrition tab
-  late double servingSize; //in g
-  late double calories; //in kcal
-  late double totalFat; //in g
-  late double saturatedFat; //in g
-  late double transFat; //in g
-  late double cholesterol; //in mg
-  late double sodium; //in mg
-  late double totalCarbohydrates; //in g
-  late double dietaryFiber; //in g
-  late double sugar; //in g
-  late double protein; //in g
+  late String imageUrl; // uploaded image URL
+
+  // Nutrition tab attributes
+  late double servingSize; // in g
+  late double calories; // in kcal
+  late double totalFat; // in g
+  late double saturatedFat; // in g
+  late double transFat; // in g
+  late double cholesterol; // in mg
+  late double sodium; // in mg
+  late double totalCarbohydrates; // in g
+  late double dietaryFiber; // in g
+  late double sugar; // in g
+  late double protein; // in g
   DocumentReference? reference;
 
+  // Constructor for creating a Recipe object with optional parameters
   Recipe({
     this.id,
     required this.title,
@@ -59,33 +64,35 @@ class Recipe {
     required this.protein,
   });
 
+  // Method to convert Recipe object to a map of key-value pairs
   Map<String, dynamic> toMap() {
     return {
-      'id' : id,
-      'title' : title,
-      'category' : category,
-      'description' : description,
-      'prepTime' : prepTime,
-      'cookTime' : cookTime,
-      'servings' : servings,
-      'ingredients' : ingredients,
-      'directions' : directions,
-      'notes' : notes,
-      'imageUrl' : imageUrl,
-      'servingSize' : servingSize,
-      'calories' : calories,
-      'totalFat' : totalFat,
-      'saturatedFat' : saturatedFat,
-      'transFat' : transFat,
-      'cholesterol' : cholesterol,
-      'sodium' : sodium,
-      'totalCarbohydrates' : totalCarbohydrates,
-      'dietaryFiber' : dietaryFiber,
-      'sugar' : sugar,
-      'protein' : protein,
+      'id': id,
+      'title': title,
+      'category': category,
+      'description': description,
+      'prepTime': prepTime,
+      'cookTime': cookTime,
+      'servings': servings,
+      'ingredients': ingredients,
+      'directions': directions,
+      'notes': notes,
+      'imageUrl': imageUrl,
+      'servingSize': servingSize,
+      'calories': calories,
+      'totalFat': totalFat,
+      'saturatedFat': saturatedFat,
+      'transFat': transFat,
+      'cholesterol': cholesterol,
+      'sodium': sodium,
+      'totalCarbohydrates': totalCarbohydrates,
+      'dietaryFiber': dietaryFiber,
+      'sugar': sugar,
+      'protein': protein,
     };
   }
 
+  // Constructor to create a Recipe object from a map of key-value pairs
   Recipe.fromMap(Map<String, dynamic> map, {required this.reference}) {
     id = reference?.id;
     title = map['title'];
@@ -111,6 +118,7 @@ class Recipe {
     protein = map['protein'];
   }
 
+  // Override toString method to provide a formatted string representation of Recipe object
   @override
   String toString() {
     return '''
@@ -146,6 +154,7 @@ class Recipe {
     ''';
   }
 
+  // Method to convert Recipe object to an HTML-formatted string
   String toHtmlString() {
     return '''
       <html>
