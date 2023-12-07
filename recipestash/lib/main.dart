@@ -62,14 +62,14 @@ Future<void> dailyNotifications() async {
   );
   NotificationDetails notificationDetails =
       NotificationDetails(android: androidPlatformChannelSpecifics);
-  await flutterLocalNotificationsPlugin.show(
+  await flutterLocalNotificationsPlugin.periodicallyShow(
     // keep this as show instead of periodic for testing purposes, change in final version
     0,
     'Daily Cooking Tip',
     await getRandomTip(),
-    // RepeatInterval.daily,
+    RepeatInterval.daily,
     notificationDetails,
-    // androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle
+    androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle
   );
 }
 
