@@ -28,6 +28,7 @@ class _HomeState extends State<Home> {
       preferences.b!); // Default theme color
   TextEditingController searchController =
       TextEditingController(); // Controller for search field
+  String searchQuery = ""; // Variable to store the search query
 
   @override
   void initState() {
@@ -36,7 +37,20 @@ class _HomeState extends State<Home> {
       setState(() {
         recipes = allRecipes;
         displayedRecipes = recipes;
+        selectedCategory = "All"; // Set the initial category
       });
+    });
+  }
+
+  void _filterRecipes(String query) {
+    setState(() {
+      searchQuery = query;
+      displayedRecipes = recipes
+          .where((recipe) =>
+              recipe.title.toLowerCase().contains(query.toLowerCase()) &&
+              (recipe.category == selectedCategory ||
+                  selectedCategory == "All"))
+          .toList();
     });
   }
 
@@ -68,7 +82,7 @@ class _HomeState extends State<Home> {
               ),
               onChanged: (query) {
                 setState(() {
-                  _filterRecipes(selectedCategory, query);
+                  _filterRecipes(query);
                 });
               },
             ),
@@ -77,29 +91,6 @@ class _HomeState extends State<Home> {
       ),
     );
   }
-
-  // Widget searchField() {
-  //   return Padding(
-  //     padding: const EdgeInsets.all(10.0),
-  //     child: Row(
-  //       children: [
-  //         Expanded(
-  //           child: TextField(
-
-  //             // decoration: const InputDecoration(
-  //             //   border: OutlineInputBorder(
-  //             //     borderRadius: BorderRadius.all(Radius.circular(15.0)),
-  //             //   ),
-  //               // hintText: 'Search',
-  //               // suffixIcon: Icon(Icons.search),
-  //             ),
-
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
 
   Widget card(String text, double w, double h, String imgUrl) {
     return Container(
@@ -136,14 +127,16 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Widget showRecipes(String selectedCategory, String searchQuery) {
+  Widget showRecipes() {
     List<Recipe> filteredRecipes;
 
     if (searchQuery.isNotEmpty) {
       // Filter recipes based on search query
       filteredRecipes = recipes
           .where((recipe) =>
-              recipe.title.toLowerCase().contains(searchQuery.toLowerCase()))
+              recipe.title.toLowerCase().contains(searchQuery.toLowerCase()) &&
+              (recipe.category == selectedCategory ||
+                  selectedCategory == "All"))
           .toList();
     } else if (selectedCategory != "All") {
       // Filter recipes based on selected category
@@ -244,31 +237,6 @@ class _HomeState extends State<Home> {
     await Authentication().signOut();
   }
 
-  void _filterRecipes(String category, String query) {
-    // If the query is empty, reset to all recipes in the selected category
-    if (query.isEmpty) {
-      setState(() {
-        selectedCategory = category;
-        displayedRecipes = recipes;
-      });
-    } else {
-      // If the category is not "All," switch to "All" category
-      if (category != "All") {
-        setState(() {
-          selectedCategory = "All";
-        });
-      }
-
-      // Filter recipes based on the selected category and search query
-      setState(() {
-        displayedRecipes = recipes
-            .where((recipe) =>
-                recipe.title.toLowerCase().contains(query.toLowerCase()))
-            .toList();
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -282,13 +250,12 @@ class _HomeState extends State<Home> {
               onCategorySelected: (category) {
                 setState(() {
                   selectedCategory = category;
-                  _filterRecipes(selectedCategory, searchController.text);
+                  _filterRecipes(searchController.text);
                 });
               },
             ),
             const Divider(),
-            Expanded(
-                child: showRecipes(selectedCategory, searchController.text)),
+            Expanded(child: showRecipes()),
           ],
         ),
         floatingActionButton: FloatingActionButton(
