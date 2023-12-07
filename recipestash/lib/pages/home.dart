@@ -10,18 +10,6 @@ import 'package:recipestash/pages/recipe_overview.dart';
 import 'package:recipestash/pages/recipe_form.dart';
 import 'package:recipestash/pages/settings.dart';
 
-class CategoryHelper {
-  static List<String> categories = [
-    "All",
-    "Breakfast",
-    "Lunch",
-    "Dinner",
-    "Dessert",
-    "Snack",
-    "Drink"
-  ];
-}
-
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
@@ -41,6 +29,15 @@ class _HomeState extends State<Home> {
       TextEditingController(); // Controller for search field
   String searchQuery = ""; // Variable to store the search query
   int selectedIndex = 0; // Added selectedIndex here
+  List<String> categories = [
+    "All",
+    "Breakfast",
+    "Lunch",
+    "Dinner",
+    "Dessert",
+    "Snack",
+    "Drink"
+  ];
 
   @override
   void initState() {
@@ -274,9 +271,9 @@ class _HomeState extends State<Home> {
                     height: 25.0,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: CategoryHelper.categories.length,
+                      itemCount: categories.length,
                       itemBuilder: (context, index) =>
-                          buildCategoryItem(index, CategoryHelper.categories),
+                          buildCategoryItem(index, categories),
                     ),
                   ),
                 ),
