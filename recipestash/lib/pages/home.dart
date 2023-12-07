@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipestash/classes/authentication.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:recipestash/classes/preferences_model.dart';
 import 'package:recipestash/classes/recipe.dart';
 import 'package:recipestash/classes/recipe_model.dart';
 import 'package:recipestash/main.dart';
@@ -22,13 +21,11 @@ class _HomeState extends State<Home> {
   final RecipeModel _model = RecipeModel();
   List<Recipe> recipes = [];
   List<Recipe> displayedRecipes = [];
-  String selectedCategory = ""; // Default category
-  Color selectedThemeColor = Color.fromARGB(255, preferences.r!, preferences.g!,
-      preferences.b!); // Default theme color
-  TextEditingController searchController =
-      TextEditingController(); // Controller for search field
+  Color selectedThemeColor = Color.fromARGB(255, preferences.r!, preferences.g!,preferences.b!); // Default theme color
+  TextEditingController searchController = TextEditingController(); // Controller for search field
   String searchQuery = ""; // Variable to store the search query
-  int selectedIndex = 0; // Added selectedIndex here
+  String selectedCategory = ""; // Default category
+  int selectedIndex = 0; // Default selected index
   List<String> categories = [
     "All",
     "Breakfast",
@@ -85,21 +82,20 @@ class _HomeState extends State<Home> {
                 selectedIndex = 0;
               },
               decoration: InputDecoration(
-                focusedBorder: OutlineInputBorder(
+                focusedBorder: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(15.0)),
                   borderSide: BorderSide(
-                      color: Colors.white), // Outline color when focused
+                      color: Colors.white) // Outline color when focused
                 ),
-                enabledBorder: OutlineInputBorder(
+                enabledBorder: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(15.0)),
                   borderSide: BorderSide(
-                      color: Colors.white), // Outline color when unfocused
+                      color: Colors.white) // Outline color when unfocused
                 ),
                 hintText: 'Search',
                 suffixIcon: Icon(
                   Icons.search,
-                  color:
-                      preferences.darkMode == 1 ? Colors.white : Colors.black,
+                  color: preferences.darkMode == 1 ? Colors.white : Colors.black
                 ),
               ),
               onChanged: (query) {
@@ -110,7 +106,7 @@ class _HomeState extends State<Home> {
               },
             ),
           ),
-        ],
+        ]
       ),
     );
   }
@@ -143,9 +139,9 @@ class _HomeState extends State<Home> {
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontSize: 30)),
-            ],
+            ]
           ),
-        ],
+        ]
       ),
     );
   }
@@ -183,7 +179,7 @@ class _HomeState extends State<Home> {
                 MaterialPageRoute(
                   builder: (context) => RecipeOverview(
                     recipe: filteredRecipes[index],
-                    model: _model,
+                    model: _model
                   ),
                 ),
               );
@@ -192,7 +188,7 @@ class _HomeState extends State<Home> {
               filteredRecipes[index].title,
               350,
               130,
-              filteredRecipes[index].imageUrl,
+              filteredRecipes[index].imageUrl
             ),
           ),
         );
@@ -206,7 +202,7 @@ class _HomeState extends State<Home> {
       MaterialPageRoute(
         builder: (context) => RecipeForm(
           model: _model,
-          isEdit: false,
+          isEdit: false
         ),
       ),
     );
@@ -215,18 +211,17 @@ class _HomeState extends State<Home> {
   void navtoAccount(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const Account()),
+      MaterialPageRoute(builder: (context) => const Account())
     );
   }
 
   void navtoSetting(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const Settings()),
+      MaterialPageRoute(builder: (context) => const Settings())
     ).then((value) {
       setState(() {
-        selectedThemeColor =
-            Color.fromARGB(255, preferences.r!, preferences.g!, preferences.b!);
+        selectedThemeColor = Color.fromARGB(255, preferences.r!, preferences.g!, preferences.b!);
       });
     });
   }
@@ -249,18 +244,18 @@ class _HomeState extends State<Home> {
             onPressed: () {
               navtoSetting(context);
             },
-            icon: Icon(Icons.settings_outlined),
-          ),
-        ],
+            icon: const Icon(Icons.settings_outlined),
+          )
+        ]
       ),
     );
   }
 
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor:
-            preferences.darkMode == 1 ? Colors.black : Colors.white,
+        backgroundColor: preferences.darkMode == 1 ? Colors.black : Colors.white,
         body: Column(
           children: [
             searchField(),
@@ -274,24 +269,24 @@ class _HomeState extends State<Home> {
                       scrollDirection: Axis.horizontal,
                       itemCount: categories.length,
                       itemBuilder: (context, index) =>
-                          buildCategoryItem(index, categories),
+                          buildCategoryItem(index, categories)
                     ),
                   ),
                 ),
                 const Divider(),
-              ],
+              ]
             ),
             Expanded(child: showRecipes()),
-          ],
+          ]
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             addRecipe();
           },
-          child: const Icon(Icons.add),
           backgroundColor: selectedThemeColor,
+          child: const Icon(Icons.add),
         ),
-        bottomNavigationBar: navBar(context),
+        bottomNavigationBar: navBar(context)
       ),
     );
   }
@@ -306,27 +301,25 @@ class _HomeState extends State<Home> {
       },
       child: Container(
         alignment: Alignment.center,
-        margin: EdgeInsets.only(left: 2),
-        padding: EdgeInsets.symmetric(
+        margin: const EdgeInsets.only(left: 2),
+        padding: const EdgeInsets.symmetric(
           horizontal: 20,
-          vertical: 5,
+          vertical: 5
         ),
         decoration: BoxDecoration(
-          color:
-              selectedIndex == index ? Color(0xFFEFF3EE) : Colors.transparent,
-          borderRadius: BorderRadius.circular(16),
+          color: selectedIndex == index ? const Color(0xFFEFF3EE) : Colors.transparent,
+          borderRadius: BorderRadius.circular(16)
         ),
         child: Text(
           categories[index],
           style: TextStyle(
             fontWeight: FontWeight.bold,
             color: selectedIndex == index
-                ? Color.fromARGB(
-                    255, preferences.r!, preferences.g!, preferences.b!)
-                : Color(0xFFC2C2B5),
-          ),
-        ),
-      ),
+                ? Color.fromARGB(255, preferences.r!, preferences.g!, preferences.b!)
+                : const Color(0xFFC2C2B5)
+          )
+        )
+      )
     );
   }
 }

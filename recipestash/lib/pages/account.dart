@@ -11,14 +11,13 @@ class Account extends StatelessWidget {
     await Authentication().signOut();
   }
 
-  void deleteAllRecipe() {
-    RecipeModel().deleteAllRecipe();
+  void deleteAllRecipe() async {
+    await RecipeModel().deleteAllRecipe();
   }
 
   @override
   Widget build(BuildContext context) {
     final User? user = Authentication().currentUser;
-
     bool isGoogleUser = user?.providerData[0].providerId == "google.com";
 
     return Scaffold(
@@ -28,11 +27,11 @@ class Account extends StatelessWidget {
           "Account",
           style: TextStyle(
             color: Colors.black,
-            fontSize: 20,
-          ),
+            fontSize: 20
+          )
         ),
-        backgroundColor: Color.fromARGB( 255,preferences.r!, preferences.g!, preferences.b!),
-        iconTheme: const IconThemeData(color: Colors.black),
+        backgroundColor: Color.fromARGB(255,preferences.r!, preferences.g!, preferences.b!),
+        iconTheme: const IconThemeData(color: Colors.black)
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -42,25 +41,22 @@ class Account extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                isGoogleUser
-                    ? CircleAvatar(
-                        backgroundImage: NetworkImage(user?.photoURL ?? ''),
-                        radius: 40)
-                    :  Icon(Icons.account_circle, size: 80, color: preferences.darkMode == 1 ? Colors.white : Colors.black,),
+                isGoogleUser ?
+                    CircleAvatar(backgroundImage: NetworkImage(user?.photoURL ?? ''), radius: 40) :
+                    Icon(Icons.account_circle, size: 80, color: preferences.darkMode == 1 ? Colors.white : Colors.black),
                 const SizedBox(width: 20),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(user!.displayName!,
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold, color: preferences.darkMode == 1 ? Colors.white : Colors.black)),
-                    Text(user.email!, style: TextStyle(fontSize: 15, color: preferences.darkMode == 1 ? Colors.white : Colors.black))
-                  ],
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: preferences.darkMode == 1 ? Colors.white : Colors.black)),
+                    Text(user.email!,
+                        style: TextStyle(fontSize: 15, color: preferences.darkMode == 1 ? Colors.white : Colors.black))
+                  ]
                 )
-              ],
+              ]
             ),
           ),
-          // const Divider(),
           TextButton(
             onPressed: () {
               showDialog(
@@ -72,7 +68,7 @@ class Account extends StatelessWidget {
                     content: Text("This action cannot be undone.", style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black, fontSize: 18,)),
                     actions: [
                       TextButton(
-                        onPressed: (){Navigator.pop(context);},
+                        onPressed: () {Navigator.pop(context);},
                         child: Text("No", style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black, fontSize: 18, fontWeight: FontWeight.bold))
                       ),
                       TextButton(
@@ -84,7 +80,7 @@ class Account extends StatelessWidget {
                         },
                         child: Text("Yes", style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black, fontSize: 18, fontWeight: FontWeight.bold))
                       )
-                    ],
+                    ]
                   );
                 }
               );
@@ -103,7 +99,7 @@ class Account extends StatelessWidget {
                     content: Text("Are you sure you want to sign out?", style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black, fontSize: 18,)),
                     actions: [
                       TextButton(
-                        onPressed: (){Navigator.pop(context);},
+                        onPressed: () {Navigator.pop(context);},
                         child: Text("No", style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black, fontSize: 18, fontWeight: FontWeight.bold))
                       ),
                       TextButton(
@@ -116,15 +112,15 @@ class Account extends StatelessWidget {
                         },
                         child: Text("Yes", style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black, fontSize: 18, fontWeight: FontWeight.bold))
                       )
-                    ],
+                    ]
                   );
                 });
             },
             style: TextButton.styleFrom(alignment: Alignment.centerLeft),
             child: const Text('Sign out')
-          ),
-        ],
-      ),
+          )
+        ]
+      )
     );
   }
 }
