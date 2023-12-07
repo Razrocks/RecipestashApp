@@ -9,7 +9,18 @@ import 'package:recipestash/pages/account.dart';
 import 'package:recipestash/pages/recipe_overview.dart';
 import 'package:recipestash/pages/recipe_form.dart';
 import 'package:recipestash/pages/settings.dart';
-import 'package:recipestash/pages/components/category_header.dart';
+
+class CategoryHelper {
+  static List<String> categories = [
+    "All",
+    "Breakfast",
+    "Lunch",
+    "Dinner",
+    "Dessert",
+    "Snack",
+    "Drink"
+  ];
+}
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -29,6 +40,7 @@ class _HomeState extends State<Home> {
   TextEditingController searchController =
       TextEditingController(); // Controller for search field
   String searchQuery = ""; // Variable to store the search query
+  int selectedIndex = 0; // Added selectedIndex here
 
   @override
   void initState() {
@@ -54,6 +66,13 @@ class _HomeState extends State<Home> {
     });
   }
 
+  void onCategorySelected(String category) {
+    setState(() {
+      selectedCategory = category;
+      _filterRecipes(searchController.text);
+    });
+  }
+
   Widget searchField() {
     return Padding(
       padding: const EdgeInsets.all(10.0),
@@ -62,6 +81,11 @@ class _HomeState extends State<Home> {
           Expanded(
             child: TextField(
               controller: searchController,
+              onTap: () {
+                // Set the selected category to "All" when the search bar is tapped
+                onCategorySelected("All");
+                selectedIndex = 0;
+              },
               decoration: InputDecoration(
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(15.0)),
@@ -83,6 +107,7 @@ class _HomeState extends State<Home> {
               onChanged: (query) {
                 setState(() {
                   _filterRecipes(query);
+                  selectedIndex = 0;
                 });
               },
             ),
@@ -233,11 +258,6 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Future<void> signOut() async {
-    await Authentication().signOut();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
@@ -246,15 +266,23 @@ class _HomeState extends State<Home> {
         body: Column(
           children: [
             searchField(),
-            CategoryHeader(
-              onCategorySelected: (category) {
-                setState(() {
-                  selectedCategory = category;
-                  _filterRecipes(searchController.text);
-                });
-              },
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20.0),
+                  child: SizedBox(
+                    height: 25.0,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: CategoryHelper.categories.length,
+                      itemBuilder: (context, index) =>
+                          buildCategoryItem(index, CategoryHelper.categories),
+                    ),
+                  ),
+                ),
+                const Divider(),
+              ],
             ),
-            const Divider(),
             Expanded(child: showRecipes()),
           ],
         ),
@@ -266,6 +294,40 @@ class _HomeState extends State<Home> {
           backgroundColor: selectedThemeColor,
         ),
         bottomNavigationBar: navBar(context),
+      ),
+    );
+  }
+
+  Widget buildCategoryItem(int index, List<String> categories) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          onCategorySelected(categories[index]);
+          selectedIndex = index;
+        });
+      },
+      child: Container(
+        alignment: Alignment.center,
+        margin: EdgeInsets.only(left: 2),
+        padding: EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 5,
+        ),
+        decoration: BoxDecoration(
+          color:
+              selectedIndex == index ? Color(0xFFEFF3EE) : Colors.transparent,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Text(
+          categories[index],
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: selectedIndex == index
+                ? Color.fromARGB(
+                    255, preferences.r!, preferences.g!, preferences.b!)
+                : Color(0xFFC2C2B5),
+          ),
+        ),
       ),
     );
   }
