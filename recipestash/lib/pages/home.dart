@@ -47,6 +47,7 @@ class _HomeState extends State<Home> {
         children: [
           Expanded(
             child: TextField(
+              controller: searchController,
               decoration: InputDecoration(
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(15.0)),
@@ -65,34 +66,6 @@ class _HomeState extends State<Home> {
                       preferences.darkMode == 1 ? Colors.white : Colors.black,
                 ),
               ),
-              onTap: () {
-                showSearch(
-                  context: context,
-                  delegate: RecipeSearch(model: _model),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget searchField() {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Row(
-        children: [
-          Expanded(
-            child: TextField(
-              controller: searchController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                ),
-                hintText: 'Search',
-                suffixIcon: Icon(Icons.search),
-              ),
               onChanged: (query) {
                 setState(() {
                   _filterRecipes(selectedCategory, query);
@@ -104,6 +77,29 @@ class _HomeState extends State<Home> {
       ),
     );
   }
+
+  // Widget searchField() {
+  //   return Padding(
+  //     padding: const EdgeInsets.all(10.0),
+  //     child: Row(
+  //       children: [
+  //         Expanded(
+  //           child: TextField(
+
+  //             // decoration: const InputDecoration(
+  //             //   border: OutlineInputBorder(
+  //             //     borderRadius: BorderRadius.all(Radius.circular(15.0)),
+  //             //   ),
+  //               // hintText: 'Search',
+  //               // suffixIcon: Icon(Icons.search),
+  //             ),
+
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Widget card(String text, double w, double h, String imgUrl) {
     return Container(
