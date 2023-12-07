@@ -111,15 +111,16 @@ class _SettingsState extends State<Settings> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Terms of Service'),
-          content: const SingleChildScrollView(
-            child: Text(termsOfService)),
+          title: Text('Terms of Service', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black, fontSize: 18, fontWeight: FontWeight.bold)),
+          backgroundColor: preferences.darkMode == 1 ? Colors.black : Colors.white,
+          content:  SingleChildScrollView(
+            child: Text(termsOfService, style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black, fontSize: 18, fontWeight: FontWeight.bold))),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
               }, 
-              child: const Text('Close')
+              child: Text('Close', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black, fontSize: 18, fontWeight: FontWeight.bold))
             )
           ],
         );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipestash/main.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class About extends StatelessWidget {
@@ -8,22 +9,24 @@ class About extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        backgroundColor: preferences.darkMode == 1 ? Colors.black : Colors.white,
         appBar: AppBar(
+          backgroundColor: Color.fromARGB( 255,preferences.r!, preferences.g!, preferences.b!),
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back_sharp),
+            icon: const Icon(Icons.arrow_back_sharp, color: Colors.black,),
             onPressed: () => Navigator.pop(context)
           ),
-          title: const Text('About')
+          title:  const Text('About', style: TextStyle(color: Colors.black,), )
         ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const ListTile(
-              title: Text('Recipe Stash'),
-              subtitle: Text('Version 1.0.0'),
+             ListTile(
+              title: Text('Recipe Stash', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black)),
+              subtitle: Text('Version 1.0.0', style: TextStyle(color: preferences.darkMode == 1 ?   const Color.fromARGB(255, 199, 197, 197) : Color.fromARGB(255, 150, 148, 148) )),
             ),
             ListTile(
-              title: const Text ('Contact Support'),
+              title: Text ('Contact Support', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black)),
               subtitle: GestureDetector(
                 onTap: () {
                   launchUrl(Uri.parse('https://github.com/CSCI4100U/mobile-group-project-2023-r-a-t/issues'));},
@@ -31,7 +34,7 @@ class About extends StatelessWidget {
               )
             ),
             ListTile(
-              title: const Text('Developed by'),
+              title: Text('Developed by', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black)),
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -52,11 +55,11 @@ class About extends StatelessWidget {
                 ],
               )
             ),
-            const Align(
+            Align(
               alignment: Alignment.centerLeft,
               child: Padding(
                 padding: EdgeInsets.only(left:16, top: 5),
-                child: Text('Copyright © 2023 RAT Ltd', style: TextStyle(color: Colors.grey),),
+                child: Text('Copyright © 2023 RAT Ltd', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black),),
               )
             )
           ],
