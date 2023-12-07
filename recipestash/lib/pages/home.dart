@@ -33,32 +33,38 @@ class _HomeState extends State<Home> {
     recipes = [];
   }
 
-  Widget searchField() {
-    return  Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Row(
-        children: [
-          Expanded(
-            child: TextField(
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                ),
-                hintText: 'Search',
-                suffixIcon: Icon(Icons.search),
+Widget searchField() {
+  return Padding(
+    padding: const EdgeInsets.all(10.0),
+    child: Row(
+      children: [
+        Expanded(
+          child: TextField(
+            decoration: InputDecoration(
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                borderSide: BorderSide(color: Colors.white), // Outline color when focused
               ),
-              onTap: () {
-                showSearch(
-                  context: context,
-                  delegate: RecipeSearch(model: _model),
-                );
-              },
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                borderSide: BorderSide(color: Colors.white), // Outline color when unfocused
+              ),
+              hintText: 'Search',
+              suffixIcon: Icon(Icons.search, color: preferences.darkMode == 1 ? Colors.white : Colors.black,),
             ),
+            onTap: () {
+              showSearch(
+                context: context,
+                delegate: RecipeSearch(model: _model),
+              );
+            },
           ),
-        ],
-      ),
-    );
-  }
+        ),
+      ],
+    ),
+  );
+}
+
 
   Widget card(String text, double w, double h, String imgUrl) {
     return Container(

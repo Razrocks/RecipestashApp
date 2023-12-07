@@ -36,6 +36,7 @@ class Account extends StatelessWidget {
     bool isGoogleUser = user?.providerData[0].providerId == "google.com";
 
     return Scaffold(
+      backgroundColor: preferences.darkMode == 1 ? Colors.black : Colors.white,
       appBar: AppBar(
         title: const Text(
           "Account",
@@ -59,15 +60,15 @@ class Account extends StatelessWidget {
                     ? CircleAvatar(
                         backgroundImage: NetworkImage(user?.photoURL ?? ''),
                         radius: 40)
-                    : const Icon(Icons.account_circle, size: 80),
+                    :  Icon(Icons.account_circle, size: 80, color: preferences.darkMode == 1 ? Colors.white : Colors.black,),
                 const SizedBox(width: 20),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(user!.displayName!,
-                        style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold)),
-                    Text(user.email!, style: const TextStyle(fontSize: 15))
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold, color: preferences.darkMode == 1 ? Colors.white : Colors.black)),
+                    Text(user.email!, style: TextStyle(fontSize: 15, color: preferences.darkMode == 1 ? Colors.white : Colors.black))
                   ],
                 )
               ],

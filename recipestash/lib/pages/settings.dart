@@ -130,6 +130,7 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: preferences.darkMode == 1 ? Colors.black : Colors.white,
       appBar: AppBar(
         backgroundColor: Color.fromARGB( 255,preferences.r!, preferences.g!, preferences.b!),
         leading: IconButton(
@@ -151,12 +152,12 @@ class _SettingsState extends State<Settings> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
+           Padding(
             padding: EdgeInsets.all(16.0),
             child: Text(
               'Themes',
               style: TextStyle(
-                color: Colors.black,
+                color: preferences.darkMode == 1 ? Colors.white : Colors.black,
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
@@ -218,7 +219,7 @@ class _SettingsState extends State<Settings> {
           ),
           // const SizedBox(height: 16), // Add some spacing before "Dark Mode" text
           ListTile(
-            title: const Text('Dark Mode', style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold)),
+            title: Text('Dark Mode', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black, fontSize: 18, fontWeight: FontWeight.bold)),
             trailing: Switch(
               activeColor: Color.fromARGB(255, preferences.r!, preferences.g!, preferences.b!),
               value: preferences.darkMode == 1 ? true : false,
@@ -232,7 +233,7 @@ class _SettingsState extends State<Settings> {
             ),
           ),
           ListTile(
-            title: const Text('Notifications', style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold)),
+            title: Text('Notifications', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black, fontSize: 18, fontWeight: FontWeight.bold)),
             trailing: Switch(
               activeColor: Color.fromARGB(255, preferences.r!, preferences.g!, preferences.b!),
               value: preferences.notifications == 1 ? true : false,
@@ -245,42 +246,43 @@ class _SettingsState extends State<Settings> {
             ),
           ),
           ListTile(
-            title: const Text('Feedback'),
+            title: Text('Feedback', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black)),
             onTap: () {
               launchUrl(Uri.parse('https://docs.google.com/forms/d/e/1FAIpQLSda-c0Um9eXByoxABmyTduXTPzIcB6qGMheAoEjGTLVVREj1g/viewform?usp=sf_link'));
             },
-            trailing: const Icon(Icons.feedback_outlined),
+            trailing: Icon(Icons.feedback_outlined, color: preferences.darkMode == 1 ? Colors.white : Colors.black,),
           ),
           ListTile(
-            title: const Text('Share App'),
+            title: Text('Share App', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black)),
             onTap: () {
               FlutterShare.share(
                 title: 'Try out this App!', 
                 text: 'Hey try out this app! It\'s called Recipe Stash and it\'s awesome!', 
                 linkUrl: 'https://github.com/CSCI4100U/mobile-group-project-2023-r-a-t/releases/latest');
             },
-            trailing: const Icon(Icons.share_outlined),
+            trailing: Icon(Icons.share_outlined, color: preferences.darkMode == 1 ? Colors.white : Colors.black,),
           ),
           ListTile(
-            title: const Text('About'),
+            title: Text('About', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black)),
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => const About()));
             },
-            trailing: const Icon(Icons.info_outline),
+            trailing: Icon(Icons.info_outline, color: preferences.darkMode == 1 ? Colors.white : Colors.black,),
           ),
           ListTile(
-            title: const Text('Help'),
+            title: Text('Help', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black)),
             onTap: () {
               launchUrl(Uri.parse('https://github.com/CSCI4100U/mobile-group-project-2023-r-a-t/discussions'));
             },
-            trailing: const Icon(Icons.help_outline),
+            trailing: Icon(Icons.help_outline, color: preferences.darkMode == 1 ? Colors.white : Colors.black,),
           ),
           ListTile(
-            title: const Text('Terms of Service'),
+            title: Text('Terms of Service', style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black)),
             onTap: () {
               showTermsOfService();
             },
-            trailing: const Icon(Icons.description_outlined),
+            trailing: Icon(Icons.description_outlined, color: preferences.darkMode == 1 ? Colors.white : Colors.black,),
+
           ),
         ],
       ),
