@@ -107,6 +107,7 @@ class _RecipeFormState extends State<RecipeForm> {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('Please fill in all required fields'),
       ));
+      return;
     }
 
     // Update or add the recipe based on the editing status
