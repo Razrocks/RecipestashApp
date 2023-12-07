@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipestash/main.dart';
 
-
 class CategoryHeader extends StatelessWidget {
   final ValueChanged<String> onCategorySelected;
 
@@ -27,7 +26,7 @@ class Categories extends StatefulWidget {
 }
 
 class _CategoriesState extends State<Categories> {
-   // Default theme color
+  // Default theme color
   List<String> categories = [
     "All",
     "Breakfast",
@@ -58,12 +57,7 @@ class _CategoriesState extends State<Categories> {
     return GestureDetector(
       onTap: () {
         setState(() {
-          if (index == 0) {
-            // "All" category selected
-            widget.onCategorySelected(""); // Pass an empty string for "All"
-          } else {
-            widget.onCategorySelected(categories[index]);
-          }
+          widget.onCategorySelected(categories[index]);
           selectedIndex = index;
         });
       },
@@ -84,7 +78,8 @@ class _CategoriesState extends State<Categories> {
           style: TextStyle(
             fontWeight: FontWeight.bold,
             color: selectedIndex == index
-                ? Color.fromARGB(255, preferences.r!, preferences.g!, preferences.b!)
+                ? Color.fromARGB(
+                    255, preferences.r!, preferences.g!, preferences.b!)
                 : Color(0xFFC2C2B5),
           ),
         ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:recipestash/classes/authentication.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:recipestash/classes/preferences_model.dart';
@@ -11,7 +10,6 @@ import 'package:recipestash/pages/recipe_overview.dart';
 import 'package:recipestash/pages/recipe_form.dart';
 import 'package:recipestash/pages/settings.dart';
 import 'package:recipestash/pages/components/category_header.dart';
-import 'package:recipestash/pages/components/recipe_search.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -24,22 +22,32 @@ class _HomeState extends State<Home> {
   final User? user = Authentication().currentUser;
   final RecipeModel _model = RecipeModel();
   List<Recipe> recipes = [];
-  String selectedCategory = "Breakfast"; // Default category
-  Color selectedThemeColor = Color.fromARGB(255, preferences.r!, preferences.g!, preferences.b!); // Default theme color
+  List<Recipe> displayedRecipes = [];
+  String selectedCategory = ""; // Default category
+  Color selectedThemeColor = Color.fromARGB(255, preferences.r!, preferences.g!,
+      preferences.b!); // Default theme color
+  TextEditingController searchController =
+      TextEditingController(); // Controller for search field
 
   @override
   void initState() {
     super.initState();
-    recipes = [];
+    _model.getAllRecipes().listen((List<Recipe> allRecipes) {
+      setState(() {
+        recipes = allRecipes;
+        displayedRecipes = recipes;
+      });
+    });
   }
 
   Widget searchField() {
-    return  Padding(
+    return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Row(
         children: [
           Expanded(
             child: TextField(
+              controller: searchController,
               decoration: const InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(15.0)),
@@ -47,11 +55,10 @@ class _HomeState extends State<Home> {
                 hintText: 'Search',
                 suffixIcon: Icon(Icons.search),
               ),
-              onTap: () {
-                showSearch(
-                  context: context,
-                  delegate: RecipeSearch(model: _model),
-                );
+              onChanged: (query) {
+                setState(() {
+                  _filterRecipes(selectedCategory, query);
+                });
               },
             ),
           ),
@@ -65,8 +72,9 @@ class _HomeState extends State<Home> {
       width: w,
       height: h,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          image: DecorationImage(image: NetworkImage(imgUrl), fit: BoxFit.cover)),
+        borderRadius: BorderRadius.circular(15),
+        image: DecorationImage(image: NetworkImage(imgUrl), fit: BoxFit.cover),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -94,42 +102,50 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Widget showRecipes(String selectedCategory) {
-    return StreamBuilder(
-      stream: _model.getRecipesByCategory(selectedCategory),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          recipes = snapshot.data!;
-          return ListView.builder(
-            itemCount: recipes.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.all(5),
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => RecipeOverview(
-                          recipe: recipes[index],
-                          model: _model,
-                        ),
-                      ),
-                    );
-                  },
-                  child: card(recipes[index].title, 350, 130,
-                      recipes[index].imageUrl),
+  Widget showRecipes(String selectedCategory, String searchQuery) {
+    List<Recipe> filteredRecipes;
+
+    if (searchQuery.isNotEmpty) {
+      // Filter recipes based on search query
+      filteredRecipes = recipes
+          .where((recipe) =>
+              recipe.title.toLowerCase().contains(searchQuery.toLowerCase()))
+          .toList();
+    } else if (selectedCategory != "All") {
+      // Filter recipes based on selected category
+      filteredRecipes = recipes
+          .where((recipe) => recipe.category == selectedCategory)
+          .toList();
+    } else {
+      // Display all recipes
+      filteredRecipes = recipes;
+    }
+
+    return ListView.builder(
+      itemCount: filteredRecipes.length,
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: const EdgeInsets.all(5),
+          child: GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => RecipeOverview(
+                    recipe: filteredRecipes[index],
+                    model: _model,
+                  ),
                 ),
               );
             },
-          );
-        } else if (snapshot.hasError) {
-          return Center(child: Text(snapshot.error.toString()));
-        } else {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
+            child: card(
+              filteredRecipes[index].title,
+              350,
+              130,
+              filteredRecipes[index].imageUrl,
+            ),
+          ),
+        );
       },
     );
   }
@@ -158,7 +174,6 @@ class _HomeState extends State<Home> {
       context,
       MaterialPageRoute(builder: (context) => const Settings()),
     ).then((value) {
-      // Update the theme color after returning from Settings screen
       setState(() {
         selectedThemeColor =
             Color.fromARGB(255, preferences.r!, preferences.g!, preferences.b!);
@@ -195,11 +210,37 @@ class _HomeState extends State<Home> {
     await Authentication().signOut();
   }
 
+  void _filterRecipes(String category, String query) {
+    // If the query is empty, reset to all recipes in the selected category
+    if (query.isEmpty) {
+      setState(() {
+        selectedCategory = category;
+        displayedRecipes = recipes;
+      });
+    } else {
+      // If the category is not "All," switch to "All" category
+      if (category != "All") {
+        setState(() {
+          selectedCategory = "All";
+        });
+      }
+
+      // Filter recipes based on the selected category and search query
+      setState(() {
+        displayedRecipes = recipes
+            .where((recipe) =>
+                recipe.title.toLowerCase().contains(query.toLowerCase()))
+            .toList();
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: preferences.darkMode == 1 ? Colors.black : Colors.white,
+        backgroundColor:
+            preferences.darkMode == 1 ? Colors.black : Colors.white,
         body: Column(
           children: [
             searchField(),
@@ -207,11 +248,13 @@ class _HomeState extends State<Home> {
               onCategorySelected: (category) {
                 setState(() {
                   selectedCategory = category;
+                  _filterRecipes(selectedCategory, searchController.text);
                 });
               },
             ),
             const Divider(),
-            Expanded(child: showRecipes(selectedCategory)),
+            Expanded(
+                child: showRecipes(selectedCategory, searchController.text)),
           ],
         ),
         floatingActionButton: FloatingActionButton(
@@ -219,12 +262,10 @@ class _HomeState extends State<Home> {
             addRecipe();
           },
           child: const Icon(Icons.add),
-          backgroundColor: selectedThemeColor, // Use selectedThemeColor here
+          backgroundColor: selectedThemeColor,
         ),
         bottomNavigationBar: navBar(context),
-        
       ),
     );
   }
 }
-
