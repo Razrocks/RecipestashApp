@@ -67,12 +67,13 @@ class Account extends StatelessWidget {
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title: const Text("Delete all recipes?"),
-                    content: const Text("This action cannot be undone."),
+                    backgroundColor: preferences.darkMode == 1 ? Colors.black : Colors.white,
+                    title: Text("Delete all recipes?", style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black, fontSize: 18, fontWeight: FontWeight.bold)),
+                    content: Text("This action cannot be undone.", style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black, fontSize: 18, fontWeight: FontWeight.bold)),
                     actions: [
                       TextButton(
                         onPressed: (){Navigator.pop(context);},
-                        child: const Text("No")
+                        child: Text("No", style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black, fontSize: 18, fontWeight: FontWeight.bold))
                       ),
                       TextButton(
                         onPressed: () {
@@ -81,7 +82,7 @@ class Account extends StatelessWidget {
                           ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text("Deleted all recipes!")));
                         },
-                        child: const Text("Yes")
+                        child: Text("Yes", style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black, fontSize: 18, fontWeight: FontWeight.bold))
                       )
                     ],
                   );
@@ -97,12 +98,13 @@ class Account extends StatelessWidget {
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title: const Text("Sign out"),
-                    content: const Text("Are you sure you want to sign out?"),
+                    backgroundColor: preferences.darkMode == 1 ? Colors.black : Colors.white,
+                    title: Text("Sign out", style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black, fontSize: 18, fontWeight: FontWeight.bold)),
+                    content: Text("Are you sure you want to sign out?", style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black, fontSize: 18, fontWeight: FontWeight.bold)),
                     actions: [
                       TextButton(
                         onPressed: (){Navigator.pop(context);},
-                        child: const Text("No")
+                        child: Text("No", style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black, fontSize: 18, fontWeight: FontWeight.bold))
                       ),
                       TextButton(
                         onPressed: () {
@@ -112,7 +114,7 @@ class Account extends StatelessWidget {
                           ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text("Signed out successfully!")));
                         },
-                        child: const Text("Yes")
+                        child: Text("Yes", style: TextStyle(color: preferences.darkMode == 1 ? Colors.white : Colors.black, fontSize: 18, fontWeight: FontWeight.bold))
                       )
                     ],
                   );

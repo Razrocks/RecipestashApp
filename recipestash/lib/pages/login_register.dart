@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 import 'package:recipestash/classes/authentication.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -51,31 +52,47 @@ class _LoginRegisterPageState extends State<LoginRegisterPage> {
   Widget build(BuildContext context)
   {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Recipe Stash'),
-      ),
       body: SingleChildScrollView(
         child: Center(
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.only(top: 200.0, left: 20.0, right: 20.0, bottom: 20.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
+            children: [
               FractionallySizedBox(widthFactor: 0.3, child: Image.asset('assets/images/Icon.png')),
+              const Text('Recipe Stash', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 10),
               TextFormField(
                 controller: _emailController,
-                decoration: const InputDecoration(labelText: 'Email',),
+                decoration:  InputDecoration(labelText: 'Email', border: OutlineInputBorder(borderRadius: BorderRadius.circular(30))),
               ),
+              const SizedBox(height: 10),
               TextFormField(
                 controller: _passwordController,
-                decoration: const InputDecoration(labelText: 'Password'),
+                decoration: InputDecoration(labelText: 'Password', border: OutlineInputBorder(borderRadius: BorderRadius.circular(30))),
                 obscureText: true,
               ),
               Text(errorMessage ?? '', style: const TextStyle(color: Colors.red)),
-              ElevatedButton(onPressed: () async {await signInWithEmailAndPassword();}, child: const Text('Login')),
-              ElevatedButton(onPressed: () async {await signUpWithEmailAndPassword();}, child: const Text('Sign Up')),
-              ElevatedButton(onPressed: () async {await signInWithGoogle();}, child: const Text('Sign In with Google')),
+              ElevatedButton(
+                onPressed: () async {await signInWithEmailAndPassword();},
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                  backgroundColor: const Color.fromARGB(255, 44, 51, 147)
+                ),
+                child: const Text('                  Login                  '),
+              ),
+              ElevatedButton(
+                onPressed: () async {await signUpWithEmailAndPassword();},
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                  backgroundColor: const Color.fromARGB(255, 98, 52, 148)
+                ),
+                child: const Text('                Sign Up                 ')),
+              SizedBox(
+                width: 280,
+                height: 61,
+                child: IconButton(onPressed: () async {await signInWithGoogle();}, icon: Image.asset('assets/images/SignInWithGoogle.png'))
+              )
             ],
           )
         ),
