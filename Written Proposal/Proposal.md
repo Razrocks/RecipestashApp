@@ -60,40 +60,7 @@ Recipe Stash is a user-friendly recipe organizer that guides you along your culi
 
 # Group members and Responsibilities
 
-###### Project Planning
 
-- Md Tanjeem Haider
-- Ayman Zahid
-- Razeen MeeraAmeer
-
-###### UI Design
-
-- Md Tanjeem Haider*
-- Razeen MeeraAmeer
-
-###### Front End Development
-
-- Razeen MeeraAmeer*
-- Md Tanjeem Haider
-
-###### Back End Development
-
-- Md Tanjeem Haider*
-- Ayman Zahid
-- Razeen MeeraAmeer
-
-###### Testing & Quality Assurance
-
-- Md Tanjeem Haider*
-
-###### Code Clean-up & Refactoring
-
-- Md Tanjeem Haider*
-
-###### Documentation & User help
-
-- Ayman Zahid*
-- Md Tanjeem Haider
 
 The asterisk (\*) denotes the team lead for each respective task. The absence of the asterisk (\*) all together signifies an even distribution of responsibilities without a designated team lead.
 
